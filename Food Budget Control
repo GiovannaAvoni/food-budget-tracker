@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Alimentação ✦</title>
+
+<style>
+:root{
+--bg:#0d1b3e;
+--card:#132754;
+--gold:#d7a54a;
+--text:#f8f6ef;
+--muted:#b9c0d3;
+--danger:#ff6767;
+--ok:#5dd18a;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+font-family:Arial,Helvetica,sans-serif;
+background:linear-gradient(180deg,#0d1b3e,#12295f);
+color:var(--text);
+padding:20px;
+max-width:520px;
+margin:auto;
+}
+
+h1{
+font-size:28px;
+margin-bottom:6px;
+}
+
+.sub{
+color:var(--muted);
+font-size:14px;
+margin-bottom:18px;
+}
+
+.card{
+background:rgba(255,255,255,.06);
+border:1px solid rgba(255,255,255,.08);
+border-radius:18px;
+padding:18px;
+margin-bottom:16px;
+backdrop-filter:blur(8px);
+}
+
+.row{
+display:flex;
+gap:10px;
+}
+
+.row > *{
+flex:1;
+}
+
+label{
+display:block;
+font-size:12px;
+margin-bottom:6px;
+color:var(--gold);
+}
+
+input,select,button{
+width:100%;
+border:none;
+border-radius:12px;
+padding:12px;
+font-size:15px;
+}
+
+input,select{
+background:#ffffff10;
+color:white;
+border:1px solid #ffffff20;
+}
+
+button{
+background:linear-gradient(90deg,#1f3d83,#315ebf);
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+button:hover{
+opacity:.95;
+}
+
+.total{
+font-size:32px;
+font-weight:bold;
+margin-top:6px;
+color:var(--gold);
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:12px;
+}
+
+.small{
+font-size:13px;
+color:var(--muted);
+}
+
+.item{
+padding:12px;
+border-bottom:1px solid rgba(255,255,255,.08);
+display:flex;
+justify-content:space-between;
+gap:10px;
+}
+
+.item:last-child{
+border-bottom:none;
+}
+
+.left{
+max-width:70%;
+}
+
+.cat{
+font-size:12px;
+color:var(--gold);
+margin-top:4px;
+}
+
+.value{
+font-weight:bold;
+}
+
+.delete{
+background:transparent;
+color:var(--danger);
+padding:0;
+font-size:18px;
+width:auto;
+}
+
+.empty{
+text-align:center;
+color:var(--muted);
+padding:14px;
+}
+
+.ok{color:var(--ok)}
+.danger{color:var(--danger)}
+</style>
+</head>
+
+<body>
+
+<h1>Alimentação ✦</h1>
+<div class="sub">Controle de gastos mensal</div>
+
+<div class="card">
+<label>Meta mensal (R$)</label>
+<input type="number" id="budget" value="1600">
+
+<div class="grid">
+<div>
+<div class="small">Total gasto</div>
+<div class="total" id="spent">R$ 0,00</div>
+</div>
+
+<div>
+<div class="small">Restante</div>
+<div class="total" id="remaining">R$ 1600,00</div>
+</div>
+</div>
+</div>
+
+<div class="card">
+<div class="row">
+<div>
+<label>Data</label>
+<input type="date" id="date">
+</div>
+
+<div>
+<label>Valor</label>
+<input type="number" id="value" step="0.01" placeholder="0,00">
+</div>
+</div>
+
+<div style="height:10px"></div>
+
+<label>Categoria</label>
+<select id="category">
+<option>Mercado</option>
+<option>iFood</option>
+<option>Restaurante</option>
+<option>Padaria</option>
+<option>Cafeteria</option>
+<option>Outros</option>
+</select>
+
+<div style="height:10px"></div>
+
+<label>Descrição</label>
+<input type="text" id="desc" placeholder="Ex: almoço">
+
+<div style="height:14px"></div>
+
+<button onclick="addEntry()">Adicionar gasto</button>
+</div>
+
+<div class="card">
+<h3 style="margin-bottom:12px">Histórico</h3>
+<div id="list"></div>
+</div>
+
+<script>
+const STORAGE_KEY = "alimentacao_entries_v2";
+
+let entries = loadEntries();
+
+document.getElementById("date").value = today();
+
+render();
+
+document.getElementById("budget").addEventListener("input", render);
+
+function today(){
+const d = new Date();
+return d.toISOString().split("T")[0];
+}
+
+function money(v){
+return Number(v || 0).toLocaleString("pt-BR",{
+style:"currency",
+currency:"BRL"
+});
+}
+
+function loadEntries(){
+try{
+return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+}catch{
+return [];
+}
+}
+
+function saveEntries(){
+localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+}
+
+function addEntry(){
+const date = document.getElementById("date").value;
+const value = parseFloat(document.getElementById("value").value);
+const category = document.getElementById("category").value;
+const desc = document.getElementById("desc").value.trim();
+
+if(!date){
+alert("Informe a data.");
+return;
+}
+
+if(!value || value <= 0){
+alert("Informe um valor válido.");
+return;
+}
+
+entries.unshift({
+id: Date.now(),
+date,
+value,
+category,
+desc: desc || category
+});
+
+saveEntries();
+
+document.getElementById("value").value = "";
+document.getElementById("desc").value = "";
+
+render();
+}
+
+function removeEntry(id){
+entries = entries.filter(item => item.id !== id);
+saveEntries();
+render();
+}
+
+function render(){
+const budget = parseFloat(document.getElementById("budget").value) || 0;
+
+const spent = entries.reduce((sum,item)=>sum + Number(item.value),0);
+
+const remaining = budget - spent;
+
+document.getElementById("spent").textContent = money(spent);
+
+const rem = document.getElementById("remaining");
+rem.textContent = money(Math.abs(remaining));
+rem.className = "total " + (remaining >= 0 ? "ok" : "danger");
+
+const list = document.getElementById("list");
+
+if(entries.length === 0){
+list.innerHTML = '<div class="empty">Nenhum gasto ainda ✦</div>';
+return;
+}
+
+list.innerHTML = entries.map(item => `
+<div class="item">
+<div class="left">
+<div>${item.desc}</div>
+<div class="cat">${item.category} • ${formatDate(item.date)}</div>
+</div>
+
+<div style="text-align:right">
+<div class="value">${money(item.value)}</div>
+<button class="delete" onclick="removeEntry(${item.id})">✕</button>
+</div>
+</div>
+`).join("");
+}
+
+function formatDate(date){
+const d = new Date(date + "T12:00:00");
+return d.toLocaleDateString("pt-BR");
+}
+</script>
+
+</body>
+</html>
