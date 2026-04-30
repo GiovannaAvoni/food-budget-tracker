@@ -386,6 +386,73 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
 .chip { cursor: pointer; transition: transform .15s; }
 .chip:active { transform: scale(0.95); }
 
+/* ENTRY EDITOR MODAL */
+#entryEditModal {
+  position: fixed; inset: 0; z-index: 220;
+  background: rgba(0,0,0,0.78); backdrop-filter: blur(5px);
+  display: none; align-items: flex-end; justify-content: center;
+  padding: 0;
+}
+#entryEditModal.open { display: flex; }
+.ee-sheet {
+  width: 100%; max-width: 480px;
+  background: #0b1d3a;
+  border: 1px solid rgba(201,150,58,0.4);
+  border-radius: 24px 24px 0 0;
+  padding: 20px 20px calc(20px + var(--sb));
+  animation: fadeUp .25s ease;
+  max-height: 92vh; overflow-y: auto;
+}
+.ee-handle { width: 36px; height: 4px; background: rgba(255,255,255,0.15); border-radius: 99px; margin: 0 auto 16px; }
+.ee-title { font-family: var(--font-serif); font-size: 20px; font-weight: 700; color: var(--gold); margin-bottom: 2px; }
+.ee-sub { font-size: 11px; color: var(--gray); margin-bottom: 18px; }
+.ee-cats { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; margin-bottom: 16px; }
+.ee-cat { border-radius: 10px; padding: 8px 4px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.ee-cat .ei { font-size: 18px; }
+.ee-cat .en { font-size: 9px; color: var(--gray); }
+.ee-cat.sel { background: rgba(201,150,58,0.18); border-color: var(--gold); }
+.ee-cat.sel .en { color: var(--gold); }
+.ee-cat:active { transform: scale(0.94); }
+.ee-fields { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+.ee-fld label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 4px; }
+.ee-fld input {
+  width: 100%; background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 10px;
+  padding: 11px 14px; color: var(--ivory); font-family: var(--font-sans);
+  font-size: 15px; outline: none; -webkit-appearance: none;
+}
+.ee-fld input:focus { border-color: var(--gold); }
+.ee-fld input::placeholder { color: rgba(255,255,255,0.22); }
+.ee-fld input[type=date] { color-scheme: dark; }
+.ee-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ee-actions { display: flex; gap: 10px; margin-bottom: 8px; }
+.ee-save {
+  flex: 1; padding: 14px;
+  background: linear-gradient(135deg, var(--sap), var(--sapm));
+  border: 1px solid rgba(201,150,58,0.4); border-radius: 12px;
+  color: var(--gold); font-family: var(--font-serif);
+  font-size: 17px; font-weight: 700; cursor: pointer;
+}
+.ee-save:active { opacity: 0.85; }
+.ee-cancel {
+  padding: 14px 18px; background: transparent;
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 12px;
+  color: rgba(255,255,255,0.4); font-size: 13px; cursor: pointer;
+}
+.ee-del {
+  width: 100%; padding: 11px; background: transparent;
+  border: 1px solid rgba(239,68,68,0.25); border-radius: 10px;
+  color: rgba(239,68,68,0.5); font-size: 12px; cursor: pointer;
+}
+.ee-del:active { color: var(--danger); border-color: rgba(239,68,68,0.5); }
+.edit-btn {
+  background: none; border: none;
+  font-size: 14px; color: rgba(255,255,255,0.2);
+  padding: 4px 6px; cursor: pointer; border-radius: 6px;
+  transition: color .15s, background .15s;
+}
+.edit-btn:active, .edit-btn:hover { color: var(--gold); background: rgba(201,150,58,0.1); }
+
 /* ── DESKTOP RESPONSIVE ─────────────────────────────────────────── */
 @media (min-width: 768px) {
   body { padding-bottom: 40px; }
@@ -466,7 +533,7 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
   .pk-sub { font-size: 14px; }
 
   /* Modals — centered on screen, not bottom sheet */
-  #exportModal, #wkEditorModal {
+  #exportModal, #wkEditorModal, #entryEditModal {
     align-items: center;
     justify-content: center;
     padding: 24px;
@@ -482,7 +549,12 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
     max-height: 80vh;
     padding: 28px 28px 28px;
   }
-  .exp-handle, .wke-handle { display: none; }
+  .ee-sheet {
+    border-radius: 22px;
+    max-width: 520px;
+    padding: 28px 28px 28px;
+  }
+  .exp-handle, .wke-handle, .ee-handle { display: none; }
 }
 
 @media (min-width: 1100px) {
@@ -700,6 +772,29 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
     </div><!-- end desktop-grid -->
 
     <div class="bottom-space"></div>
+  </div>
+</div>
+
+<!-- ENTRY EDIT MODAL -->
+<div id="entryEditModal" onclick="closeEntryEditIfBg(event)">
+  <div class="ee-sheet">
+    <div class="ee-handle"></div>
+    <div class="ee-title">Editar lançamento</div>
+    <div class="ee-sub" id="eeSubTitle">---</div>
+    <div class="ee-cats" id="eeCats"></div>
+    <div class="ee-fields">
+      <div class="ee-row2">
+        <div class="ee-fld"><label>Data</label><input type="date" id="eeDate"></div>
+        <div class="ee-fld"><label>Valor (R$)</label><input type="number" id="eeVal" step="0.01" min="0" inputmode="decimal"></div>
+      </div>
+      <div class="ee-fld"><label>Descrição</label><input type="text" id="eeDesc" placeholder="ex: compras, almoço..."></div>
+      <div class="ee-fld"><label>Observação</label><input type="text" id="eeObs" placeholder="opcional..."></div>
+    </div>
+    <div class="ee-actions">
+      <button class="ee-save" onclick="saveEntryEdit()">Salvar</button>
+      <button class="ee-cancel" onclick="closeEntryEdit()">Cancelar</button>
+    </div>
+    <button class="ee-del" onclick="deleteFromEdit()">🗑 Excluir este lançamento</button>
   </div>
 </div>
 
@@ -1116,13 +1211,14 @@ function rLog() {
       '<div class="log-ico">'+cat.i+'</div>'+
       '<div class="log-main">'+
         '<div class="log-desc">'+(e.desc||e.category)+'</div>'+
-        '<div class="log-meta">'+e.category+' - '+(e.week==='---'?'<span style="color:var(--warn)">⚠ fora das semanas</span>':e.week)+(e.obs?' - '+e.obs:'')+'</div>'+
+        '<div class="log-meta">'+e.category+' - '+(e.week==='---'?'<span style="color:var(--warn)">⚠ fora das semanas</span>':e.week)+(e.obs?' · '+e.obs:'')+'</div>'+
       '</div>'+
       '<div class="log-right">'+
         '<div class="log-val">'+fmt(e.value)+'</div>'+
         '<div class="log-dt">'+dn+' '+d+'</div>'+
       '</div>'+
-      '<button class="del-btn" onclick="delEntry('+e.id+')">x</button>'+
+      '<button class="edit-btn" onclick="openEntryEdit('+e.id+')" title="Editar">✏️</button>'+
+      '<button class="del-btn" onclick="delEntry('+e.id+')">×</button>'+
       '</div>';
   }).join('');
 }
@@ -1562,6 +1658,82 @@ function wkeReset() {
   closeWkEditor();
   render();
   showToast('Semanas restauradas!');
+}
+
+// ── ENTRY EDITOR ─────────────────────────────────────────────────────────
+let eeId = null; // id of entry being edited
+let eeCat = '';  // selected category in editor
+
+function openEntryEdit(id) {
+  const e = entries.find(x => x.id == id);
+  if (!e) return;
+  eeId = id;
+  eeCat = e.category || '';
+
+  const dO = e.date ? new Date(e.date+'T12:00:00') : null;
+  const dn = dO ? DP[dO.getDay()] : '';
+  const d  = dO ? pad(dO.getDate())+'/'+pad(dO.getMonth()+1) : '---';
+  document.getElementById('eeSubTitle').textContent = (e.desc||e.category) + ' · ' + dn+' '+d + ' · ' + fmt(e.value);
+  document.getElementById('eeDate').value  = e.date  || '';
+  document.getElementById('eeVal').value   = e.value || '';
+  document.getElementById('eeDesc').value  = e.desc  || '';
+  document.getElementById('eeObs').value   = e.obs   || '';
+
+  renderEeCats();
+  document.getElementById('entryEditModal').classList.add('open');
+}
+
+function renderEeCats() {
+  document.getElementById('eeCats').innerHTML = CATS.map(c =>
+    '<div class="ee-cat'+(eeCat===c.n?' sel':'')+'" onclick="selEeCat(\''+c.n+'\')">'+
+    '<div class="ei">'+c.i+'</div><div class="en">'+c.n+'</div></div>'
+  ).join('');
+}
+function selEeCat(n) { eeCat = eeCat===n ? '' : n; renderEeCats(); }
+
+function closeEntryEdit() {
+  document.getElementById('entryEditModal').classList.remove('open');
+  eeId = null; eeCat = '';
+}
+function closeEntryEditIfBg(e) {
+  if (e.target === document.getElementById('entryEditModal')) closeEntryEdit();
+}
+
+async function saveEntryEdit() {
+  if (!eeId) return;
+  if (!eeCat) { showToast('Selecione uma categoria'); return; }
+  const date  = document.getElementById('eeDate').value;
+  const value = parseFloat(document.getElementById('eeVal').value);
+  const desc  = document.getElementById('eeDesc').value.trim();
+  const obs   = document.getElementById('eeObs').value.trim();
+  if (!date)          { showToast('Informe a data'); return; }
+  if (!value||value<=0){ showToast('Informe o valor'); return; }
+
+  const wks  = getWeeks(aY, aM);
+  const week = (wks.find(w => date>=w.start && date<=w.end)||{}).lbl || '---';
+
+  const idx = entries.findIndex(x => x.id == eeId);
+  if (idx === -1) return;
+
+  const updated = { ...entries[idx], date, value, desc: desc||eeCat, category: eeCat, week, obs };
+  entries[idx] = updated;
+  localStorage.setItem(cKey(aY, aM), JSON.stringify(entries));
+
+  // Sync to Google Sheets if online
+  if (!offline) {
+    try { await apiCall({action:'update', id:eeId, date, desc:desc||eeCat, category:eeCat, value, week, obs}); }
+    catch(e) { /* silently fail — local already saved */ }
+  }
+
+  closeEntryEdit();
+  render();
+  showToast('Lançamento atualizado!');
+}
+
+async function deleteFromEdit() {
+  if (!eeId) return;
+  closeEntryEdit();
+  await delEntry(eeId);
 }
 
 function showToast(msg) {
