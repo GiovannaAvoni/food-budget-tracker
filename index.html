@@ -7,8 +7,11 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0D1B3E">
 <title>Alimentacao</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
+:root {
+  --font-serif: 'Palatino Linotype', 'Book Antiqua', Palatino, 'Georgia', serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+}
 :root {
   --navy: #0D1B3E;
   --sap: #1A3A6B;
@@ -24,7 +27,7 @@
 }
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 body {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-sans);
   background: var(--navy);
   color: var(--ivory);
   min-height: 100vh;
@@ -40,11 +43,11 @@ body::before {
 }
 .page { position: relative; z-index: 1; max-width: 480px; margin: 0 auto; }
 .sb-space { height: calc(var(--st) + 14px); }
-
+ 
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes slideIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
-
+ 
 /* SCREEN SYSTEM */
 .screen {
   position: fixed; inset: 0; z-index: 80;
@@ -57,11 +60,11 @@ body::before {
 .screen.active { display: flex; }
 #mainScreen { position: relative; z-index: 1; display: none; }
 #mainScreen.active { display: block; }
-
+ 
 /* SETUP */
 #setupScreen { justify-content: center; text-align: center; padding: 32px 24px; }
 .setup-icon { font-size: 48px; margin-bottom: 20px; }
-.setup-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 700; color: var(--gold); margin-bottom: 10px; }
+.setup-title { font-family: var(--font-serif); font-size: 28px; font-weight: 700; color: var(--gold); margin-bottom: 10px; }
 .setup-sub { font-size: 13px; color: var(--gray); line-height: 1.7; margin-bottom: 28px; max-width: 340px; }
 .steps { width: 100%; max-width: 400px; text-align: left; margin-bottom: 24px; }
 .step { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px; }
@@ -71,7 +74,7 @@ body::before {
 .url-input {
   width: 100%; max-width: 400px; background: rgba(255,255,255,0.07);
   border: 1px solid rgba(201,150,58,0.45); border-radius: 14px;
-  padding: 15px; color: var(--ivory); font-size: 13px; font-family: 'DM Sans', sans-serif;
+  padding: 15px; color: var(--ivory); font-size: 13px; font-family: var(--font-sans);
   outline: none; margin-bottom: 12px; text-align: center;
 }
 .url-input:focus { border-color: var(--gold); }
@@ -79,7 +82,7 @@ body::before {
   width: 100%; max-width: 400px; padding: 15px;
   background: linear-gradient(135deg, var(--sap), var(--sapm));
   border: 1px solid rgba(201,150,58,0.4); border-radius: 14px;
-  color: var(--gold); font-family: 'Cormorant Garamond', serif;
+  color: var(--gold); font-family: var(--font-serif);
   font-size: 18px; font-weight: 700; cursor: pointer; margin-bottom: 10px;
 }
 .btn-secondary {
@@ -87,11 +90,11 @@ body::before {
   background: transparent; border: 1px solid rgba(255,255,255,0.15); border-radius: 14px;
   color: rgba(255,255,255,0.5); font-size: 13px; cursor: pointer;
 }
-
+ 
 /* MONTH PICKER */
 #pickerScreen { text-align: center; }
 .pk-label { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
-.pk-title { font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 700; margin-bottom: 4px; }
+.pk-title { font-family: var(--font-serif); font-size: 34px; font-weight: 700; margin-bottom: 4px; }
 .pk-sub { font-size: 12px; color: var(--gray); margin-bottom: 40px; }
 .yr-nav { display: flex; align-items: center; gap: 20px; margin-bottom: 24px; }
 .yr-btn {
@@ -101,7 +104,7 @@ body::before {
   font-size: 22px; cursor: pointer; color: var(--ivory);
 }
 .yr-btn:active { background: rgba(201,150,58,0.2); }
-.yr-val { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 700; color: var(--gold); min-width: 80px; text-align: center; }
+.yr-val { font-family: var(--font-serif); font-size: 30px; font-weight: 700; color: var(--gold); min-width: 80px; text-align: center; }
 .mo-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; width: 100%; max-width: 380px; }
 .mo-btn { border-radius: 16px; padding: 16px 8px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); text-align: center; cursor: pointer; transition: all .2s; }
 .mo-btn .mn { font-size: 14px; font-weight: 500; color: var(--ivory); }
@@ -110,12 +113,12 @@ body::before {
 .mo-btn.is-cur { border-color: rgba(201,150,58,0.55); background: rgba(201,150,58,0.1); }
 .mo-btn.is-cur .mn { color: var(--gold); }
 .mo-btn:active { transform: scale(0.95); }
-
+ 
 /* HEADER */
 header { padding: 8px 18px 14px; display: flex; justify-content: space-between; align-items: flex-start; }
 .hdr-left { cursor: pointer; }
 .hdr-eyebrow { font-size: 10px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 2px; }
-.hdr-title { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 700; line-height: 1; }
+.hdr-title { font-family: var(--font-serif); font-size: 24px; font-weight: 700; line-height: 1; }
 .hdr-title span { color: var(--gold); }
 .hdr-hint { font-size: 10px; color: rgba(255,255,255,0.22); margin-top: 2px; }
 .hdr-btns { display: flex; gap: 8px; margin-top: 4px; }
@@ -127,7 +130,7 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
 }
 .ico-btn:active { background: rgba(201,150,58,0.15); }
 .ico-btn.spin { animation: spin .8s linear infinite; }
-
+ 
 /* CARDS */
 .card {
   margin: 0 16px 14px;
@@ -139,12 +142,6 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
   background: linear-gradient(135deg, #0a1428, var(--sap));
   border-color: rgba(201,150,58,0.35);
   position: relative; overflow: hidden;
-}
-.card-navy::before {
-  content: 'star'; font-family: 'Material Icons', serif;
-  position: absolute; right: 18px; top: 14px;
-  font-size: 52px; color: rgba(201,150,58,0.06);
-  pointer-events: none; line-height: 1;
 }
 .card-sap {
   background: linear-gradient(135deg, var(--sap), #0f2a56);
@@ -158,22 +155,22 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
   background: radial-gradient(circle, rgba(201,150,58,0.15) 0%, transparent 70%);
   pointer-events: none;
 }
-
+ 
 /* MONTH OVERVIEW */
 .sec-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 3px; }
-.big-num { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 700; line-height: 1; margin-bottom: 14px; }
+.big-num { font-family: var(--font-serif); font-size: 36px; font-weight: 700; line-height: 1; margin-bottom: 14px; }
 .big-num.over { color: var(--danger); }
 .big-num.warn { color: var(--warn); }
 .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
 .stat { background: rgba(255,255,255,0.055); border-radius: 11px; padding: 9px 11px; }
 .stat .sl { font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray); margin-bottom: 3px; }
-.stat .sv { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 700; }
+.stat .sv { font-family: var(--font-serif); font-size: 16px; font-weight: 700; }
 .budget-row { display: flex; align-items: center; gap: 8px; margin-top: 4px; margin-bottom: 12px; }
 .budget-row .sl { font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); }
 .budget-input {
   background: rgba(255,255,255,0.08); border: 1px solid rgba(201,150,58,0.3);
   border-radius: 8px; padding: 4px 8px; color: var(--gold);
-  font-family: 'Cormorant Garamond', serif; font-size: 14px; font-weight: 700;
+  font-family: var(--font-serif); font-size: 14px; font-weight: 700;
   width: 80px; outline: none; text-align: center;
 }
 .budget-input:focus { border-color: var(--gold); }
@@ -187,16 +184,16 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
 .bar-fill { height: 100%; border-radius: 99px; transition: width .7s cubic-bezier(.22,1,.36,1); background: linear-gradient(90deg, var(--sapm), var(--gold)); }
 .bar-fill.warn { background: linear-gradient(90deg, var(--warn), #D97706); }
 .bar-fill.over { background: linear-gradient(90deg, #B91C1C, var(--danger)); }
-
+ 
 /* WEEK HERO */
 .wk-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 3px; }
 .wk-dates { font-size: 11px; color: var(--gray); margin-bottom: 12px; }
 .wk-amounts { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 14px; }
-.wk-spent { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 700; line-height: 1; }
+.wk-spent { font-family: var(--font-serif); font-size: 36px; font-weight: 700; line-height: 1; }
 .wk-spent.over { color: var(--danger); }
 .wk-lim-wrap { text-align: right; }
 .wk-lim-lbl { font-size: 9px; color: var(--gray); letter-spacing: 1px; }
-.wk-lim { font-family: 'Cormorant Garamond', serif; font-size: 17px; color: var(--gold); }
+.wk-lim { font-family: var(--font-serif); font-size: 17px; color: var(--gold); }
 .wk-bar { height: 5px; background: rgba(255,255,255,0.1); border-radius: 99px; overflow: hidden; margin-bottom: 9px; }
 .wk-bar-fill { height: 100%; border-radius: 99px; transition: width .7s cubic-bezier(.22,1,.36,1); background: linear-gradient(90deg, var(--sapm), var(--gold)); }
 .wk-bar-fill.warn { background: linear-gradient(90deg, var(--warn), #D97706); }
@@ -207,11 +204,11 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
 .rem-row { display: flex; justify-content: space-between; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08); }
 .rem-item { text-align: center; }
 .rem-lbl { font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray); margin-bottom: 3px; }
-.rem-val { font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 700; }
+.rem-val { font-family: var(--font-serif); font-size: 15px; font-weight: 700; }
 .rem-val.ok { color: var(--ok); }
 .rem-val.warn { color: var(--warn); }
 .rem-val.over { color: var(--danger); }
-
+ 
 /* WEEK CHIPS */
 .chips-wrap { padding: 0 16px; margin-bottom: 18px; }
 .chips-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
@@ -220,7 +217,7 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
 .chip { flex-shrink: 0; border-radius: 13px; padding: 11px 13px; min-width: 116px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); }
 .chip.active { background: rgba(201,150,58,0.12); border-color: rgba(201,150,58,0.4); }
 .chip .cl { font-size: 10px; letter-spacing: 1px; color: var(--gold); margin-bottom: 3px; }
-.chip .cs { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 700; }
+.chip .cs { font-family: var(--font-serif); font-size: 16px; font-weight: 700; }
 .chip .cr { font-size: 10px; margin-top: 1px; }
 .chip .cr.ok { color: var(--ok); }
 .chip .cr.warn { color: var(--warn); }
@@ -229,21 +226,21 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
 .chip .cbf { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--sapm), var(--gold)); }
 .chip .cbf.over { background: var(--danger); }
 .chip .cbf.warn { background: var(--warn); }
-
+ 
 /* SECTION TITLE */
 .sec-title { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); padding: 0 18px; margin-bottom: 11px; }
-
+ 
 /* COMPARISON */
 .cmp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
 .cmp-item { background: rgba(255,255,255,0.04); border-radius: 11px; padding: 11px; }
 .cmp-lbl { font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray); margin-bottom: 3px; }
-.cmp-val { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 700; }
+.cmp-val { font-family: var(--font-serif); font-size: 17px; font-weight: 700; }
 .cmp-sub { font-size: 10px; color: var(--gray); margin-top: 2px; }
 .cmp-diff { display: flex; align-items: center; justify-content: center; padding: 9px; border-radius: 11px; font-size: 12px; font-weight: 600; }
 .cmp-diff.better { background: rgba(34,197,94,0.12); color: var(--ok); }
 .cmp-diff.worse { background: rgba(239,68,68,0.12); color: var(--danger); }
 .cmp-diff.same { background: rgba(255,255,255,0.05); color: var(--gray); }
-
+ 
 /* FORM */
 .pills-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 7px; margin-bottom: 15px; }
 .pill { border-radius: 11px; padding: 9px 4px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; user-select: none; -webkit-user-select: none; }
@@ -254,7 +251,7 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
 .pill:active { transform: scale(0.94); }
 .fields { display: flex; flex-direction: column; gap: 11px; }
 .fld label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 5px; }
-.fld input { width: 100%; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 11px; padding: 13px 15px; color: var(--ivory); font-family: 'DM Sans', sans-serif; font-size: 15px; outline: none; -webkit-appearance: none; }
+.fld input { width: 100%; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 11px; padding: 13px 15px; color: var(--ivory); font-family: var(--font-sans); font-size: 15px; outline: none; -webkit-appearance: none; }
 .fld input:focus { border-color: var(--gold); }
 .fld input::placeholder { color: rgba(255,255,255,0.22); }
 .fld input[type=date] { color-scheme: dark; }
@@ -263,13 +260,131 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
   width: 100%; margin-top: 13px; padding: 15px;
   background: linear-gradient(135deg, var(--sap), var(--sapm));
   border: 1px solid rgba(201,150,58,0.35); border-radius: 13px;
-  color: var(--gold); font-family: 'Cormorant Garamond', serif;
+  color: var(--gold); font-family: var(--font-serif);
   font-size: 18px; font-weight: 700; cursor: pointer;
   display: flex; align-items: center; justify-content: center; gap: 8px;
 }
 .btn-add:active { opacity: 0.85; }
 .btn-add.loading { opacity: 0.55; pointer-events: none; }
-
+ 
+/* EXPORT BUTTON */
+.btn-export {
+  width: 100%; padding: 13px;
+  background: rgba(201,150,58,0.1);
+  border: 1px solid rgba(201,150,58,0.4); border-radius: 13px;
+  color: var(--gold); font-family: var(--font-sans);
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-top: 8px;
+}
+.btn-export:active { background: rgba(201,150,58,0.2); }
+ 
+/* EXPORT MODAL */
+#exportModal {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+  display: none; align-items: flex-end; justify-content: center;
+  padding: 0 0 calc(var(--sb) + 16px);
+}
+#exportModal.open { display: flex; }
+.exp-sheet {
+  width: 100%; max-width: 480px;
+  background: #0f2248;
+  border: 1px solid rgba(201,150,58,0.3);
+  border-radius: 24px 24px 16px 16px;
+  padding: 24px 20px 20px;
+  animation: fadeUp .3s ease;
+}
+.exp-handle { width: 36px; height: 4px; background: rgba(255,255,255,0.15); border-radius: 99px; margin: 0 auto 20px; }
+.exp-title { font-family: var(--font-serif); font-size: 22px; font-weight: 700; color: var(--gold); margin-bottom: 4px; text-align: center; }
+.exp-sub { font-size: 12px; color: var(--gray); text-align: center; margin-bottom: 20px; }
+.exp-opts { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.exp-opt {
+  display: flex; align-items: center; gap: 14px;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px; padding: 14px 16px; cursor: pointer;
+}
+.exp-opt:active { background: rgba(201,150,58,0.1); border-color: rgba(201,150,58,0.3); }
+.exp-opt-ico { font-size: 22px; flex-shrink: 0; }
+.exp-opt-inf { flex: 1; }
+.exp-opt-nm { font-size: 14px; font-weight: 600; }
+.exp-opt-ds { font-size: 11px; color: var(--gray); margin-top: 2px; }
+.exp-close {
+  width: 100%; padding: 13px; background: transparent;
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 12px;
+  color: rgba(255,255,255,0.45); font-size: 13px; cursor: pointer;
+}
+ 
+/* WEEK EDITOR MODAL */
+#wkEditorModal {
+  position: fixed; inset: 0; z-index: 210;
+  background: rgba(0,0,0,0.75); backdrop-filter: blur(4px);
+  display: none; align-items: flex-end; justify-content: center;
+  padding: 0;
+}
+#wkEditorModal.open { display: flex; }
+.wke-sheet {
+  width: 100%; max-width: 480px;
+  background: #0a1835;
+  border: 1px solid rgba(201,150,58,0.35);
+  border-radius: 24px 24px 0 0;
+  padding: 20px 20px calc(20px + var(--sb));
+  animation: fadeUp .3s ease;
+  max-height: 92vh; overflow-y: auto;
+}
+.wke-handle { width: 36px; height: 4px; background: rgba(255,255,255,0.15); border-radius: 99px; margin: 0 auto 18px; }
+.wke-title { font-family: var(--font-serif); font-size: 22px; font-weight: 700; color: var(--gold); margin-bottom: 4px; }
+.wke-sub { font-size: 12px; color: var(--gray); margin-bottom: 20px; line-height: 1.5; }
+.wke-week-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px; padding: 14px 16px; margin-bottom: 10px;
+}
+.wke-wk-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.wke-wk-lbl { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+.wke-wk-spent { font-family: var(--font-serif); font-size: 13px; color: var(--gray); }
+.wke-wk-del { background: none; border: none; color: rgba(239,68,68,0.45); font-size: 18px; cursor: pointer; padding: 0 4px; line-height: 1; }
+.wke-wk-del:active { color: var(--danger); }
+.wke-dates-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.wke-fld label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 4px; opacity: 0.7; }
+.wke-fld input[type=date] {
+  width: 100%; background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 9px;
+  padding: 9px 12px; color: var(--ivory); font-family: var(--font-sans);
+  font-size: 14px; outline: none; -webkit-appearance: none; color-scheme: dark;
+}
+.wke-fld input[type=date]:focus { border-color: var(--gold); }
+.wke-add-btn {
+  width: 100%; padding: 13px; margin-top: 4px; margin-bottom: 16px;
+  background: rgba(255,255,255,0.03);
+  border: 1px dashed rgba(201,150,58,0.35); border-radius: 13px;
+  color: rgba(201,150,58,0.7); font-size: 13px; font-weight: 600; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.wke-add-btn:active { background: rgba(201,150,58,0.08); }
+.wke-actions { display: flex; gap: 10px; margin-bottom: 8px; }
+.wke-save {
+  flex: 1; padding: 14px;
+  background: linear-gradient(135deg, var(--sap), var(--sapm));
+  border: 1px solid rgba(201,150,58,0.4); border-radius: 12px;
+  color: var(--gold); font-family: var(--font-serif);
+  font-size: 17px; font-weight: 700; cursor: pointer;
+}
+.wke-save:active { opacity: 0.85; }
+.wke-cancel {
+  padding: 14px 20px; background: transparent;
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 12px;
+  color: rgba(255,255,255,0.4); font-size: 13px; cursor: pointer;
+}
+.wke-reset {
+  width: 100%; padding: 11px; background: transparent;
+  border: 1px solid rgba(239,68,68,0.2); border-radius: 10px;
+  color: rgba(239,68,68,0.45); font-size: 12px; cursor: pointer;
+}
+.wke-reset:active { color: var(--danger); border-color: rgba(239,68,68,0.4); }
+.chip { cursor: pointer; transition: transform .15s; }
+.chip:active { transform: scale(0.95); }
+ 
 /* INSIGHTS */
 .cat-row { display: flex; align-items: center; gap: 10px; margin-bottom: 11px; }
 .cat-row:last-child { margin-bottom: 0; }
@@ -280,8 +395,8 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
 .cat-pt { font-size: 10px; color: var(--gray); }
 .cat-bar { height: 4px; background: rgba(255,255,255,0.07); border-radius: 99px; overflow: hidden; margin-top: 5px; }
 .cat-bar-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--sapm), var(--gold)); }
-.cat-val { font-family: 'Cormorant Garamond', serif; font-size: 14px; font-weight: 600; color: var(--gold); white-space: nowrap; }
-
+.cat-val { font-family: var(--font-serif); font-size: 14px; font-weight: 600; color: var(--gold); white-space: nowrap; }
+ 
 /* PIE */
 .pie-inner { display: flex; align-items: center; gap: 18px; }
 .pie-legend { flex: 1; display: flex; flex-direction: column; gap: 7px; }
@@ -289,7 +404,7 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
 .pie-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
 .pie-ln { font-size: 11px; flex: 1; }
 .pie-lp { font-size: 11px; color: var(--gold); font-weight: 600; }
-
+ 
 /* LOG */
 .log-wrap { margin: 0 16px; }
 .log-entry { display: flex; align-items: center; gap: 11px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06); animation: slideIn .3s ease; }
@@ -298,13 +413,13 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
 .log-desc { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .log-meta { font-size: 10px; color: var(--gray); margin-top: 1px; }
 .log-right { text-align: right; flex-shrink: 0; }
-.log-val { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 700; color: var(--gold); }
+.log-val { font-family: var(--font-serif); font-size: 16px; font-weight: 700; color: var(--gold); }
 .log-dt { font-size: 10px; color: var(--gray); margin-top: 1px; }
 .del-btn { background: none; border: none; font-size: 16px; color: rgba(255,255,255,0.15); padding: 4px; cursor: pointer; }
 .del-btn:active { color: var(--danger); }
 .empty-log { text-align: center; padding: 30px 16px; color: var(--gray); font-size: 13px; }
 .bottom-space { height: calc(20px + var(--sb)); }
-
+ 
 /* TOAST */
 .toast {
   position: fixed; bottom: calc(18px + var(--sb)); left: 50%;
@@ -316,12 +431,10 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
   pointer-events: none; max-width: 90vw; white-space: nowrap;
 }
 .toast.show { transform: translateX(-50%) translateY(0); }
-
-.offline-tag { display: inline-block; padding: 3px 10px; background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); border-radius: 99px; font-size: 10px; color: var(--danger); margin-bottom: 16px; }
 </style>
 </head>
 <body>
-
+ 
 <!-- SETUP -->
 <div class="screen" id="setupScreen">
   <div class="setup-icon">🌿</div>
@@ -337,7 +450,7 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
   <button class="btn-primary" onclick="saveUrl()">Conectar ao Google Sheets</button>
   <button class="btn-secondary" onclick="useOffline()">Usar offline (sem Google Sheets)</button>
 </div>
-
+ 
 <!-- MONTH PICKER -->
 <div class="screen" id="pickerScreen">
   <div class="pk-label">Controle de Alimentacao</div>
@@ -350,12 +463,12 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
   </div>
   <div class="mo-grid" id="moGrid"></div>
 </div>
-
+ 
 <!-- MAIN APP -->
 <div id="mainScreen">
   <div class="page">
     <div class="sb-space"></div>
-
+ 
     <header>
       <div class="hdr-left" onclick="showPicker()">
         <div class="hdr-eyebrow">Alimentacao</div>
@@ -363,10 +476,11 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
         <div class="hdr-hint">&#8617; trocar mes</div>
       </div>
       <div class="hdr-btns">
+        <button class="ico-btn" onclick="openExport()" title="Exportar relatório">📄</button>
         <button class="ico-btn" id="syncBtn" onclick="syncData()">&#x1F504;</button>
       </div>
     </header>
-
+ 
     <!-- MONTH OVERVIEW -->
     <div class="card card-navy">
       <div class="sec-label">Disponivel no mes</div>
@@ -387,7 +501,7 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
         <div class="bar"><div class="bar-fill" id="moBar" style="width:0%"></div></div>
       </div>
     </div>
-
+ 
     <!-- WEEK HERO -->
     <div class="card card-sap">
       <div class="wk-label" id="wkLabel">---</div>
@@ -410,17 +524,20 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
         <div class="rem-item"><div class="rem-lbl">Dias rest.</div><div class="rem-val" id="remD">---</div></div>
       </div>
     </div>
-
+ 
     <!-- WEEK CHIPS -->
     <div class="chips-wrap">
-      <div class="chips-label">Semanas do mes</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div class="chips-label" style="margin-bottom:0">Semanas do mes</div>
+        <button onclick="openWkEditor()" style="background:rgba(201,150,58,0.12);border:1px solid rgba(201,150,58,0.35);border-radius:8px;padding:4px 11px;color:var(--gold);font-size:11px;font-weight:600;cursor:pointer;">&#9998; Editar</button>
+      </div>
       <div class="chips-scroll" id="chipsScroll"></div>
     </div>
-
+ 
     <!-- COMPARISON -->
     <div class="sec-title">Comparacao com mes anterior</div>
     <div class="card" id="cmpCard"><div style="text-align:center;color:var(--gray);font-size:12px">Sincronize para carregar</div></div>
-
+ 
     <!-- FORM -->
     <div class="sec-title">Registrar gasto</div>
     <div class="card">
@@ -435,11 +552,11 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
       </div>
       <button class="btn-add" id="btnAdd" onclick="addEntry()"><span>+</span> Adicionar gasto</button>
     </div>
-
+ 
     <!-- INSIGHTS -->
     <div class="sec-title">Por categoria</div>
     <div class="card" id="insCard"><div style="text-align:center;color:var(--gray);font-size:12px;padding:8px">Nenhum dado ainda</div></div>
-
+ 
     <!-- PIE -->
     <div class="sec-title">Distribuicao de gastos</div>
     <div class="card">
@@ -448,7 +565,7 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
         <div class="pie-legend" id="pieLegend"></div>
       </div>
     </div>
-
+ 
     <!-- LOG -->
     <div class="sec-title">Historico</div>
     <div class="log-wrap" id="logWrap"></div>
@@ -456,9 +573,58 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
     <div class="bottom-space"></div>
   </div>
 </div>
-
+ 
+<!-- WEEK EDITOR MODAL -->
+<div id="wkEditorModal" onclick="closeWkEditorIfBg(event)">
+  <div class="wke-sheet">
+    <div class="wke-handle"></div>
+    <div class="wke-title">Editar Semanas</div>
+    <div class="wke-sub" id="wkeSubTitle">Ajuste as datas de inicio e fim de cada semana, ou adicione/remova semanas.</div>
+    <div id="wkeWeeksList"></div>
+    <button class="wke-add-btn" onclick="wkeAddWeek()">+ Adicionar semana</button>
+    <div class="wke-actions">
+      <button class="wke-save" onclick="wkeSave()">Salvar</button>
+      <button class="wke-cancel" onclick="closeWkEditor()">Cancelar</button>
+    </div>
+    <button class="wke-reset" onclick="wkeReset()">&#8635; Restaurar semanas automaticas</button>
+  </div>
+</div>
+ 
+<!-- EXPORT MODAL -->
+<div id="exportModal" onclick="closeExportIfBg(event)">
+  <div class="exp-sheet">
+    <div class="exp-handle"></div>
+    <div class="exp-title">Exportar Relatorio</div>
+    <div class="exp-sub" id="expSubTitle">---</div>
+    <div class="exp-opts">
+      <div class="exp-opt" onclick="exportCSV()">
+        <div class="exp-opt-ico">📊</div>
+        <div class="exp-opt-inf">
+          <div class="exp-opt-nm">Planilha CSV</div>
+          <div class="exp-opt-ds">Abre no Excel, Google Sheets ou Numbers</div>
+        </div>
+      </div>
+      <div class="exp-opt" onclick="exportTXT()">
+        <div class="exp-opt-ico">📋</div>
+        <div class="exp-opt-inf">
+          <div class="exp-opt-nm">Resumo em texto</div>
+          <div class="exp-opt-ds">Relatorio completo por semana para copiar</div>
+        </div>
+      </div>
+      <div class="exp-opt" onclick="exportHTML()">
+        <div class="exp-opt-ico">🖨️</div>
+        <div class="exp-opt-inf">
+          <div class="exp-opt-nm">Relatorio HTML</div>
+          <div class="exp-opt-ds">Pagina formatada, pronta para imprimir ou salvar como PDF</div>
+        </div>
+      </div>
+    </div>
+    <button class="exp-close" onclick="closeExport()">Fechar</button>
+  </div>
+</div>
+ 
 <div class="toast" id="toast"></div>
-
+ 
 <script>
 const CATS = [
   {n:'Mercado', i:'🛒'}, {n:'iFood', i:'📱'}, {n:'Padaria', i:'🥐'},
@@ -468,47 +634,85 @@ const CATS = [
 const PCOLS = ['#2A5298','#C9963A','#3B82F6','#D97706','#1D4ED8','#B45309','#60A5FA','#92400E'];
 const MO = ['Janeiro','Fevereiro','Marco','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const DP = ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'];
-
+ 
 let entries = [], selCat = '', offline = false;
 let gsUrl = localStorage.getItem('gs_url') || '';
 let wkBudget = Number(localStorage.getItem('wk_budget')) || 400;
 let pkY = new Date().getFullYear(), aY = new Date().getFullYear(), aM = new Date().getMonth();
-
+ 
+function wkCustomKey(y,m) { return 'wk_custom_'+y+'_'+m; }
+function getCustomWeeks(y,m) {
+  const raw = localStorage.getItem(wkCustomKey(y,m));
+  return raw ? JSON.parse(raw) : null;
+}
+ 
 function pad(n) { return String(n).padStart(2,'0'); }
 function toISO(d) { return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
 function fmtD(d) { return pad(d.getDate())+'/'+pad(d.getMonth()+1); }
 function fmt(v) { return 'R$ '+Number(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
 function fmtS(v) { return 'R$ '+Number(v||0).toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0}); }
 function cKey(y,m) { return 'entries_'+y+'_'+m; }
-
-function getWeeks(y,m) {
-  const first = new Date(y,m,1), last = new Date(y,m+1,0);
-  const sun = new Date(first); sun.setDate(first.getDate()-first.getDay());
-  const wks = []; let cur = new Date(sun), n = 1;
-  while (cur <= last) {
-    const ws = new Date(cur), we = new Date(cur); we.setDate(we.getDate()+6);
-    const os = ws < first ? first : ws, oe = we > last ? last : we;
-    if (os <= oe) wks.push({lbl:'Semana '+n, dates:fmtD(os)+' - '+fmtD(oe), start:toISO(os), end:toISO(oe)});
-    cur.setDate(cur.getDate()+7); n++;
+ 
+/**
+ * WEEK LOGIC:
+ * - If user has saved custom weeks for this month, use those.
+ * - Otherwise auto: Week 1 = first Sunday of month, Sunday→Saturday, ends last Saturday.
+ */
+function getWeeks(y, m) {
+  const custom = getCustomWeeks(y, m);
+  if (custom && custom.length > 0) return custom;
+  return getAutoWeeks(y, m);
+}
+ 
+function getAutoWeeks(y, m) {
+  const firstDay = new Date(y, m, 1);
+  const lastDay = new Date(y, m + 1, 0);
+ 
+  let firstSunday = new Date(firstDay);
+  while (firstSunday.getDay() !== 0) firstSunday.setDate(firstSunday.getDate() + 1);
+ 
+  let lastSaturday = new Date(lastDay);
+  while (lastSaturday.getDay() !== 6) lastSaturday.setDate(lastSaturday.getDate() - 1);
+ 
+  const wks = [];
+  let cur = new Date(firstSunday);
+  let n = 1;
+  while (cur <= lastSaturday) {
+    const ws = new Date(cur);
+    const we = new Date(cur);
+    we.setDate(we.getDate() + 6);
+    const end = we > lastSaturday ? new Date(lastSaturday) : we;
+    wks.push({ lbl: 'Semana ' + n, dates: fmtD(ws) + ' - ' + fmtD(end), start: toISO(ws), end: toISO(end) });
+    cur.setDate(cur.getDate() + 7);
+    n++;
   }
   return wks;
 }
+ 
 function getDays(y,m) { return new Date(y,m+1,0).getDate(); }
 function wkSpent(lbl,src) { return (src||entries).filter(e=>e.week===lbl).reduce((s,e)=>s+Number(e.value),0); }
 function wkLimits(wks,src) {
-  let carry=0,lims=[];
-  for (const w of wks) { const l=Math.max(0,wkBudget-carry),s=wkSpent(w.lbl,src); carry=Math.max(0,s-l); lims.push(l); }
+  let carry=0, lims=[];
+  for (const w of wks) {
+    const l = Math.max(0, wkBudget - carry);
+    const s = wkSpent(w.lbl, src);
+    carry = Math.max(0, s - l);
+    lims.push(l);
+  }
   return lims;
 }
 function curWkIdx(wks) {
   const t = toISO(new Date());
-  for (let i=0;i<wks.length;i++) if (t>=wks[i].start&&t<=wks[i].end) return i;
-  return toISO(new Date())>wks[wks.length-1].end ? wks.length-1 : 0;
+  for (let i=0; i<wks.length; i++) {
+    if (t >= wks[i].start && t <= wks[i].end) return i;
+  }
+  // If today is before first week, show week 1; if after last, show last
+  return t > wks[wks.length-1].end ? wks.length-1 : 0;
 }
-
+ 
 // SCREENS
 function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('mainScreen').classList.remove('active');
   document.getElementById('mainScreen').style.display = 'none';
   if (id === 'mainScreen') {
@@ -517,34 +721,34 @@ function showScreen(id) {
     document.getElementById(id).classList.add('active');
   }
 }
-
+ 
 window.onload = () => {
   document.getElementById('budgetInp').value = wkBudget;
   if (!gsUrl && !offline) { showScreen('setupScreen'); }
   else { showScreen('pickerScreen'); renderPicker(); }
 };
-
+ 
 function saveUrl() {
   const v = document.getElementById('urlInput').value.trim();
   if (!v.startsWith('https://script.google.com')) { showToast('URL invalida'); return; }
-  gsUrl = v; localStorage.setItem('gs_url',gsUrl); offline = false;
+  gsUrl = v; localStorage.setItem('gs_url', gsUrl); offline = false;
   showScreen('pickerScreen'); renderPicker();
 }
 function useOffline() { offline = true; showScreen('pickerScreen'); renderPicker(); }
 function saveBudget() {
-  wkBudget = Number(document.getElementById('budgetInp').value)||400;
-  localStorage.setItem('wk_budget',wkBudget);
-  render(); showToast('Meta salva: '+fmt(wkBudget)+'/sem');
+  wkBudget = Number(document.getElementById('budgetInp').value) || 400;
+  localStorage.setItem('wk_budget', wkBudget);
+  render(); showToast('Meta salva: ' + fmt(wkBudget) + '/sem');
 }
-
+ 
 // PICKER
 function showPicker() { showScreen('pickerScreen'); pkY = aY; renderPicker(); }
-function chgYear(d) { pkY+=d; document.getElementById('pkYear').textContent=pkY; renderPicker(); }
+function chgYear(d) { pkY += d; document.getElementById('pkYear').textContent = pkY; renderPicker(); }
 function renderPicker() {
   document.getElementById('pkYear').textContent = pkY;
   const now = new Date();
-  document.getElementById('moGrid').innerHTML = MO.map((nm,m)=>{
-    const isCur = pkY===now.getFullYear()&&m===now.getMonth();
+  document.getElementById('moGrid').innerHTML = MO.map((nm,m) => {
+    const isCur = pkY === now.getFullYear() && m === now.getMonth();
     const hasD = localStorage.getItem(cKey(pkY,m)) ? 'has-data' : '';
     return '<div class="mo-btn '+(isCur?'is-cur ':'')+hasD+'" onclick="selMon('+pkY+','+m+')"><div class="mn">'+nm.slice(0,3)+'</div><div class="md"></div></div>';
   }).join('');
@@ -563,14 +767,14 @@ function selMon(y,m) {
   if (!offline) syncData();
   renderPills();
 }
-
+ 
 // API
 async function apiCall(body) {
   const r = await fetch(gsUrl, {method:'POST', mode:'cors', body:JSON.stringify(body)});
   if (!r.ok) throw new Error('HTTP '+r.status);
   return r.json();
 }
-
+ 
 async function syncData() {
   if (offline) { showToast('Modo offline'); return; }
   const btn = document.getElementById('syncBtn');
@@ -591,7 +795,7 @@ async function syncData() {
   }
   btn.classList.remove('spin');
 }
-
+ 
 async function addEntry() {
   const date = document.getElementById('fDate').value;
   const value = parseFloat(document.getElementById('fVal').value);
@@ -625,27 +829,27 @@ async function addEntry() {
   }
   btn.classList.remove('loading'); btn.innerHTML = '<span>+</span> Adicionar gasto';
 }
-
+ 
 async function delEntry(id) {
   entries = entries.filter(e=>e.id!=id);
   localStorage.setItem(cKey(aY,aM), JSON.stringify(entries));
   render(); showToast('Removido');
   if (!offline) try { await apiCall({action:'delete',id}); } catch(e) {}
 }
-
+ 
 function clearForm() {
   document.getElementById('fDesc').value='';
   document.getElementById('fVal').value='';
   document.getElementById('fObs').value='';
   selCat=''; renderPills();
 }
-
+ 
 // RENDER
 function render() {
   const wks = getWeeks(aY,aM), lims = wkLimits(wks), ci = curWkIdx(wks);
   rMo(wks,lims); rHero(wks,lims,ci); rChips(wks,lims,ci); rCmp(wks,lims); rIns(); rPie(); rLog();
 }
-
+ 
 function rMo(wks,lims) {
   const tot=lims.reduce((s,l)=>s+l,0), spent=entries.reduce((s,e)=>s+Number(e.value),0), rem=tot-spent;
   const pct=tot>0?Math.min(100,spent/tot*100):0, daily=tot/getDays(aY,aM);
@@ -661,7 +865,7 @@ function rMo(wks,lims) {
   f.style.width=pct+'%';
   f.className='bar-fill'+(pct>=100?' over':pct>=80?' warn':'');
 }
-
+ 
 function rHero(wks,lims,ci) {
   const w=wks[ci], lim=lims[ci], spent=wkSpent(w.lbl), rem=lim-spent;
   const pct=lim>0?Math.min(100,spent/lim*100):0, over=spent>lim;
@@ -683,20 +887,20 @@ function rHero(wks,lims,ci) {
   rr.className='rem-val '+(rem<0?'over':rem<lim*.2?'warn':'ok');
   document.getElementById('remD').textContent=dL===0?'Hoje':dL+'d';
 }
-
+ 
 function rChips(wks,lims,ci) {
-  document.getElementById('chipsScroll').innerHTML = wks.map((w,i)=>{
+  document.getElementById('chipsScroll').innerHTML = wks.map((w,i) => {
     const lim=lims[i], spent=wkSpent(w.lbl), rem=lim-spent;
     const pct=lim>0?Math.min(100,spent/lim*100):0, ov=rem<0, wn=!ov&&pct>=90;
-    return '<div class="chip'+(i===ci?' active':'')+'">'+
-      '<div class="cl">'+w.lbl+'</div>'+
+    return '<div class="chip'+(i===ci?' active':'')+'" onclick="openWkEditorAt('+i+')" title="Clique para editar esta semana">'+
+      '<div class="cl">'+w.lbl+' ✎</div>'+
       '<div class="cs" style="color:'+(ov?'var(--danger)':'var(--ivory)')+'">'+fmt(spent)+'</div>'+
       '<div class="cr '+(ov?'over':wn?'warn':'ok')+'">'+(ov?'-':'+')+fmt(Math.abs(rem))+'</div>'+
       '<div class="cb"><div class="cbf '+(ov?'over':wn?'warn':'')+'" style="width:'+pct+'%"></div></div>'+
       '</div>';
   }).join('');
 }
-
+ 
 function rCmp(wks,lims) {
   const py=aM===0?aY-1:aY, pm=aM===0?11:aM-1;
   const raw=localStorage.getItem(cKey(py,pm));
@@ -712,14 +916,14 @@ function rCmp(wks,lims) {
     '<div class="cmp-item"><div class="cmp-lbl">'+MO[aM]+' '+aY+'</div><div class="cmp-val">'+fmt(cS)+'</div><div class="cmp-sub">'+wks.length+' sem. '+fmt(cB)+'</div></div>'+
     '</div><div class="cmp-diff '+cls+'">'+txt+'</div>';
 }
-
+ 
 function rIns() {
   const tot={};CATS.forEach(c=>tot[c.n]=0);
   entries.forEach(e=>{if(tot[e.category]!==undefined)tot[e.category]+=Number(e.value);});
   const total=Object.values(tot).reduce((s,v)=>s+v,0), max=Math.max(...Object.values(tot),1);
   const sorted=[...CATS].sort((a,b)=>tot[b.n]-tot[a.n]).filter(c=>tot[c.n]>0);
   if (!sorted.length) { document.getElementById('insCard').innerHTML='<div style="text-align:center;color:var(--gray);font-size:12px;padding:8px">Nenhum dado ainda</div>'; return; }
-  document.getElementById('insCard').innerHTML = sorted.map(c=>{
+  document.getElementById('insCard').innerHTML = sorted.map(c => {
     const pct=total>0?(tot[c.n]/total*100).toFixed(1):0;
     return '<div class="cat-row">'+
       '<div class="cat-ico">'+c.i+'</div>'+
@@ -731,7 +935,7 @@ function rIns() {
       '</div>';
   }).join('');
 }
-
+ 
 function rPie() {
   const canvas=document.getElementById('pieChart'), ctx=canvas.getContext('2d');
   const tot={};CATS.forEach(c=>tot[c.n]=0);
@@ -742,7 +946,7 @@ function rPie() {
   const CX=70,CY=70,R=62,IN=30;
   if (!total) {
     ctx.beginPath();ctx.arc(CX,CY,R,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,0.05)';ctx.fill();
-    ctx.fillStyle='rgba(255,255,255,0.3)';ctx.font='11px DM Sans,sans-serif';ctx.textAlign='center';ctx.fillText('Sem dados',CX,CY+4);
+    ctx.fillStyle='rgba(255,255,255,0.3)';ctx.font='11px -apple-system,Arial,sans-serif';ctx.textAlign='center';ctx.fillText('Sem dados',CX,CY+4);
     document.getElementById('pieLegend').innerHTML=''; return;
   }
   let a=-Math.PI/2;
@@ -752,13 +956,13 @@ function rPie() {
     a+=sl;
   });
   ctx.beginPath();ctx.arc(CX,CY,IN,0,Math.PI*2);ctx.fillStyle='#0D1B3E';ctx.fill();
-  ctx.fillStyle='#C9963A';ctx.font='bold 10px Cormorant Garamond,serif';ctx.textAlign='center';ctx.fillText(fmtS(total),CX,CY-3);
-  ctx.fillStyle='rgba(255,255,255,0.4)';ctx.font='8px DM Sans,sans-serif';ctx.fillText('total',CX,CY+9);
+  ctx.fillStyle='#C9963A';ctx.font='bold 11px Palatino,Georgia,serif';ctx.textAlign='center';ctx.fillText(fmtS(total),CX,CY-3);
+  ctx.fillStyle='rgba(255,255,255,0.4)';ctx.font='8px -apple-system,Arial,sans-serif';ctx.fillText('total',CX,CY+9);
   document.getElementById('pieLegend').innerHTML=data.slice(0,6).map(d=>
     '<div class="pie-li"><div class="pie-dot" style="background:'+d.col+'"></div><div class="pie-ln">'+d.name+'</div><div class="pie-lp">'+(d.val/total*100).toFixed(1)+'%</div></div>'
   ).join('');
 }
-
+ 
 function rLog() {
   const log=document.getElementById('logWrap'), empty=document.getElementById('emptyLog');
   if (!entries.length) { log.innerHTML=''; empty.style.display='block'; return; }
@@ -781,7 +985,7 @@ function rLog() {
       '</div>';
   }).join('');
 }
-
+ 
 function renderPills() {
   document.getElementById('pillsGrid').innerHTML=CATS.map(c=>
     '<div class="pill'+(selCat===c.n?' sel':'')+'" onclick="selC(\''+c.n+'\')">'+
@@ -789,7 +993,436 @@ function renderPills() {
   ).join('');
 }
 function selC(n) { selCat=selCat===n?'':n; renderPills(); }
-
+ 
+// ── EXPORT ──────────────────────────────────────────────────────────────
+function openExport() {
+  document.getElementById('expSubTitle').textContent = MO[aM] + ' ' + aY + ' · ' + entries.length + ' lancamentos';
+  document.getElementById('exportModal').classList.add('open');
+}
+function closeExport() { document.getElementById('exportModal').classList.remove('open'); }
+function closeExportIfBg(e) { if (e.target === document.getElementById('exportModal')) closeExport(); }
+ 
+function getReportData() {
+  const wks = getWeeks(aY, aM);
+  const lims = wkLimits(wks);
+  const total = entries.reduce((s,e) => s+Number(e.value), 0);
+  const budget = lims.reduce((s,l) => s+l, 0);
+ 
+  // categories
+  const catTotals = {};
+  CATS.forEach(c => catTotals[c.n] = 0);
+  entries.forEach(e => { if (catTotals[e.category] !== undefined) catTotals[e.category] += Number(e.value); });
+ 
+  return { wks, lims, total, budget, catTotals };
+}
+ 
+function exportCSV() {
+  const rows = [['Data','Dia','Descricao','Categoria','Semana','Valor (R$)','Observacao']];
+  const sorted = [...entries].sort((a,b) => a.date > b.date ? 1 : -1);
+  sorted.forEach(e => {
+    const dO = e.date ? new Date(e.date+'T12:00:00') : null;
+    const dn = dO ? DP[dO.getDay()] : '';
+    const d = dO ? pad(dO.getDate())+'/'+pad(dO.getMonth()+1)+'/'+dO.getFullYear() : '';
+    rows.push([d, dn, e.desc||'', e.category||'', e.week||'', Number(e.value).toFixed(2).replace('.',','), e.obs||'']);
+  });
+ 
+  const { wks, lims, total, budget, catTotals } = getReportData();
+  rows.push([]);
+  rows.push(['RESUMO POR SEMANA','','','','','','']);
+  rows.push(['Semana','Periodo','Limite (R$)','Gasto (R$)','Restante (R$)','%','']);
+  wks.forEach((w,i) => {
+    const spent = wkSpent(w.lbl);
+    const lim = lims[i];
+    const rem = lim - spent;
+    rows.push([w.lbl, w.dates, lim.toFixed(2).replace('.',','), spent.toFixed(2).replace('.',','), rem.toFixed(2).replace('.',','), (lim>0?(spent/lim*100).toFixed(1):0)+'%','']);
+  });
+ 
+  rows.push([]);
+  rows.push(['RESUMO POR CATEGORIA','','','','','','']);
+  rows.push(['Categoria','Gasto (R$)','% do total','','','','']);
+  CATS.forEach(c => {
+    if (catTotals[c.n] > 0) {
+      rows.push([c.n, catTotals[c.n].toFixed(2).replace('.',','), total>0?(catTotals[c.n]/total*100).toFixed(1)+'%':'0%','','','','']);
+    }
+  });
+ 
+  rows.push([]);
+  rows.push(['TOTAL GASTO', total.toFixed(2).replace('.',','), 'ORCAMENTO', budget.toFixed(2).replace('.',','), 'SALDO', (budget-total).toFixed(2).replace('.',','), '']);
+ 
+  const bom = '\uFEFF';
+  const csv = bom + rows.map(r => r.map(v => '"'+String(v).replace(/"/g,'""')+'"').join(';')).join('\n');
+  downloadFile(csv, 'alimentacao_'+MO[aM].toLowerCase()+'_'+aY+'.csv', 'text/csv;charset=utf-8');
+  closeExport(); showToast('CSV exportado!');
+}
+ 
+function exportTXT() {
+  const { wks, lims, total, budget, catTotals } = getReportData();
+  const line = '─'.repeat(44);
+  let txt = '';
+  txt += '╔' + '═'.repeat(42) + '╗\n';
+  txt += '║  RELATORIO DE ALIMENTACAO'.padEnd(42) + '║\n';
+  txt += '║  ' + (MO[aM]+' '+aY).padEnd(40) + '║\n';
+  txt += '╚' + '═'.repeat(42) + '╝\n\n';
+ 
+  txt += 'RESUMO DO MES\n' + line + '\n';
+  txt += 'Orcamento total : ' + fmt(budget) + '\n';
+  txt += 'Total gasto     : ' + fmt(total) + '\n';
+  txt += 'Saldo           : ' + fmt(budget - total) + '\n';
+  txt += 'Meta semanal    : ' + fmt(wkBudget) + '\n\n';
+ 
+  txt += 'SEMANAS\n' + line + '\n';
+  wks.forEach((w,i) => {
+    const spent = wkSpent(w.lbl);
+    const lim = lims[i];
+    const rem = lim - spent;
+    const pct = lim > 0 ? (spent/lim*100).toFixed(0) : 0;
+    const status = spent > lim ? '⚠ EXCEDIDO' : pct >= 90 ? '⚠ ATENCAO' : '✓ OK';
+    txt += '\n' + w.lbl + ' (' + w.dates + ')\n';
+    txt += '  Limite  : ' + fmt(lim) + '\n';
+    txt += '  Gasto   : ' + fmt(spent) + '  (' + pct + '%)\n';
+    txt += '  Saldo   : ' + fmt(Math.abs(rem)) + '  ' + status + '\n';
+ 
+    const wEntries = entries.filter(e => e.week === w.lbl).sort((a,b) => a.date > b.date ? 1 : -1);
+    if (wEntries.length) {
+      wEntries.forEach(e => {
+        const dO = e.date ? new Date(e.date+'T12:00:00') : null;
+        const d = dO ? pad(dO.getDate())+'/'+pad(dO.getMonth()+1) : '---';
+        const dn = dO ? DP[dO.getDay()] : '';
+        txt += '  · '+d+' '+dn.padEnd(4)+' '+( e.desc||e.category).substring(0,22).padEnd(23)+' '+fmt(e.value)+'\n';
+      });
+    } else {
+      txt += '  (sem lancamentos)\n';
+    }
+  });
+ 
+  txt += '\nPOR CATEGORIA\n' + line + '\n';
+  CATS.filter(c => catTotals[c.n] > 0)
+    .sort((a,b) => catTotals[b.n]-catTotals[a.n])
+    .forEach(c => {
+      const pct = total > 0 ? (catTotals[c.n]/total*100).toFixed(1) : 0;
+      txt += (c.i+' '+c.n).padEnd(16) + fmt(catTotals[c.n]).padStart(14) + '  ('+pct+'%)\n';
+    });
+ 
+  txt += '\n' + line + '\n';
+  txt += 'Gerado em: ' + new Date().toLocaleString('pt-BR') + '\n';
+ 
+  downloadFile(txt, 'alimentacao_'+MO[aM].toLowerCase()+'_'+aY+'.txt', 'text/plain;charset=utf-8');
+  closeExport(); showToast('Texto exportado!');
+}
+ 
+function exportHTML() {
+  const { wks, lims, total, budget, catTotals } = getReportData();
+  const pct = budget > 0 ? Math.min(100, total/budget*100).toFixed(1) : 0;
+  const saldo = budget - total;
+  const statusColor = saldo < 0 ? '#EF4444' : saldo < budget*0.15 ? '#F59E0B' : '#22C55E';
+ 
+  let weeksHTML = '';
+  wks.forEach((w,i) => {
+    const spent = wkSpent(w.lbl);
+    const lim = lims[i];
+    const rem = lim - spent;
+    const wp = lim > 0 ? Math.min(100, spent/lim*100).toFixed(1) : 0;
+    const wColor = rem < 0 ? '#EF4444' : wp >= 90 ? '#F59E0B' : '#22C55E';
+    const wEntries = entries.filter(e => e.week === w.lbl).sort((a,b) => a.date > b.date ? 1 : -1);
+ 
+    weeksHTML += `
+      <div style="margin-bottom:20px;background:#f8f6f1;border-radius:12px;overflow:hidden">
+        <div style="background:#1A3A6B;color:#FDFBF7;padding:12px 16px;display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-size:11px;letter-spacing:2px;color:#C9963A;text-transform:uppercase">${w.lbl}</div>
+            <div style="font-size:13px;opacity:0.7">${w.dates}</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:18px;font-weight:700;color:${rem<0?'#EF4444':'#FDFBF7'}">R$ ${spent.toLocaleString('pt-BR',{minimumFractionDigits:2})}</div>
+            <div style="font-size:11px;color:#C9963A">limite R$ ${lim.toLocaleString('pt-BR',{minimumFractionDigits:2})}</div>
+          </div>
+        </div>
+        <div style="padding:4px 16px 8px;background:#1A3A6B">
+          <div style="height:4px;background:rgba(255,255,255,0.15);border-radius:99px;overflow:hidden">
+            <div style="width:${wp}%;height:100%;background:${wColor};border-radius:99px"></div>
+          </div>
+        </div>
+        <table style="width:100%;border-collapse:collapse;font-size:13px">
+          <thead><tr style="background:#e8e4dc">
+            <th style="padding:8px 12px;text-align:left;color:#6b5e3e;font-size:10px;letter-spacing:1px;text-transform:uppercase">Data</th>
+            <th style="padding:8px 12px;text-align:left;color:#6b5e3e;font-size:10px;letter-spacing:1px;text-transform:uppercase">Descricao</th>
+            <th style="padding:8px 12px;text-align:left;color:#6b5e3e;font-size:10px;letter-spacing:1px;text-transform:uppercase">Categoria</th>
+            <th style="padding:8px 12px;text-align:right;color:#6b5e3e;font-size:10px;letter-spacing:1px;text-transform:uppercase">Valor</th>
+          </tr></thead>
+          <tbody>
+            ${wEntries.length ? wEntries.map((e,idx) => {
+              const dO = e.date ? new Date(e.date+'T12:00:00') : null;
+              const d = dO ? pad(dO.getDate())+'/'+pad(dO.getMonth()+1) : '---';
+              const dn = dO ? DP[dO.getDay()] : '';
+              return `<tr style="background:${idx%2===0?'#fff':'#f8f6f1'}">
+                <td style="padding:9px 12px;color:#555">${d} <span style="color:#999">${dn}</span></td>
+                <td style="padding:9px 12px;color:#333">${e.desc||e.category}${e.obs?'<span style="color:#999;font-size:11px"> · '+e.obs+'</span>':''}</td>
+                <td style="padding:9px 12px;color:#555">${e.category}</td>
+                <td style="padding:9px 12px;text-align:right;font-weight:600;color:#1A3A6B">R$ ${Number(e.value).toLocaleString('pt-BR',{minimumFractionDigits:2})}</td>
+              </tr>`;
+            }).join('') : '<tr><td colspan="4" style="padding:12px;text-align:center;color:#aaa;font-style:italic">Sem lancamentos nesta semana</td></tr>'}
+            <tr style="background:#e8e4dc">
+              <td colspan="3" style="padding:9px 12px;font-weight:700;font-size:12px;color:#1A3A6B">TOTAL DA SEMANA</td>
+              <td style="padding:9px 12px;text-align:right;font-weight:700;color:${rem<0?'#EF4444':'#1A3A6B'}">R$ ${spent.toLocaleString('pt-BR',{minimumFractionDigits:2})}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="padding:10px 16px;background:#f0ece4;display:flex;justify-content:space-between;font-size:12px">
+          <span style="color:#666">Saldo da semana:</span>
+          <span style="font-weight:700;color:${wColor}">R$ ${Math.abs(rem).toLocaleString('pt-BR',{minimumFractionDigits:2})} ${rem<0?'(excedido)':''}</span>
+        </div>
+      </div>`;
+  });
+ 
+  let catHTML = CATS.filter(c => catTotals[c.n] > 0)
+    .sort((a,b) => catTotals[b.n]-catTotals[a.n])
+    .map(c => {
+      const p = total > 0 ? (catTotals[c.n]/total*100).toFixed(1) : 0;
+      return `<tr>
+        <td style="padding:9px 12px">${c.i} ${c.n}</td>
+        <td style="padding:9px 12px">
+          <div style="height:6px;background:#e8e4dc;border-radius:99px;overflow:hidden">
+            <div style="width:${p}%;height:100%;background:#2A5298;border-radius:99px"></div>
+          </div>
+        </td>
+        <td style="padding:9px 12px;text-align:right;font-weight:600;color:#1A3A6B">R$ ${catTotals[c.n].toLocaleString('pt-BR',{minimumFractionDigits:2})}</td>
+        <td style="padding:9px 12px;text-align:right;color:#888">${p}%</td>
+      </tr>`;
+    }).join('');
+ 
+  const html = `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">
+  <title>Relatorio ${MO[aM]} ${aY}</title>
+  <style>
+    body{font-family:'Segoe UI',Arial,sans-serif;background:#f4f1eb;color:#333;margin:0;padding:24px}
+    .wrap{max-width:800px;margin:0 auto}
+    @media print{body{padding:0;background:#fff}.no-print{display:none}}
+  </style></head><body>
+  <div class="wrap">
+    <div style="background:linear-gradient(135deg,#0D1B3E,#1A3A6B);color:#FDFBF7;padding:28px 32px;border-radius:16px;margin-bottom:24px">
+      <div style="font-size:11px;letter-spacing:4px;color:#C9963A;text-transform:uppercase;margin-bottom:6px">Controle de Alimentacao</div>
+      <div style="font-size:32px;font-weight:700;margin-bottom:4px">${MO[aM]} ${aY}</div>
+      <div style="font-size:13px;opacity:0.6">${entries.length} lancamentos registrados</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px">
+        <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:14px">
+          <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#C9963A;margin-bottom:4px">Total Gasto</div>
+          <div style="font-size:22px;font-weight:700">R$ ${total.toLocaleString('pt-BR',{minimumFractionDigits:2})}</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:14px">
+          <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#C9963A;margin-bottom:4px">Orcamento</div>
+          <div style="font-size:22px;font-weight:700">R$ ${budget.toLocaleString('pt-BR',{minimumFractionDigits:2})}</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:14px">
+          <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#C9963A;margin-bottom:4px">Saldo</div>
+          <div style="font-size:22px;font-weight:700;color:${statusColor}">R$ ${Math.abs(saldo).toLocaleString('pt-BR',{minimumFractionDigits:2})}${saldo<0?' ↑':''}</div>
+        </div>
+      </div>
+      <div style="margin-top:16px">
+        <div style="display:flex;justify-content:space-between;font-size:11px;opacity:0.6;margin-bottom:5px"><span>Utilizado do orcamento</span><span>${pct}%</span></div>
+        <div style="height:6px;background:rgba(255,255,255,0.15);border-radius:99px;overflow:hidden">
+          <div style="width:${pct}%;height:100%;background:${statusColor};border-radius:99px"></div>
+        </div>
+      </div>
+    </div>
+ 
+    <div style="margin-bottom:8px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#C9963A">Semanas</div>
+    ${weeksHTML}
+ 
+    <div style="margin-bottom:8px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#C9963A;margin-top:24px">Por Categoria</div>
+    <div style="background:#fff;border-radius:12px;overflow:hidden;margin-bottom:24px">
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead><tr style="background:#e8e4dc">
+          <th style="padding:10px 12px;text-align:left;color:#6b5e3e;font-size:10px;letter-spacing:1px;text-transform:uppercase">Categoria</th>
+          <th style="padding:10px 12px;text-align:left;color:#6b5e3e;font-size:10px;letter-spacing:1px;text-transform:uppercase">Distribuicao</th>
+          <th style="padding:10px 12px;text-align:right;color:#6b5e3e;font-size:10px;letter-spacing:1px;text-transform:uppercase">Valor</th>
+          <th style="padding:10px 12px;text-align:right;color:#6b5e3e;font-size:10px;letter-spacing:1px;text-transform:uppercase">%</th>
+        </tr></thead>
+        <tbody>${catHTML}</tbody>
+      </table>
+    </div>
+ 
+    <div style="text-align:center;font-size:11px;color:#aaa;padding:16px 0">
+      Relatorio gerado em ${new Date().toLocaleString('pt-BR')}
+    </div>
+  </div>
+  </body></html>`;
+ 
+  const blob = new Blob([html], {type:'text/html;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'relatorio_alimentacao_'+MO[aM].toLowerCase()+'_'+aY+'.html';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  closeExport(); showToast('Relatorio HTML exportado!');
+}
+ 
+function downloadFile(content, filename, type) {
+  const blob = new Blob([content], {type});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+ 
+// ── WEEK EDITOR ──────────────────────────────────────────────────────────
+let wkeData = []; // working copy while modal is open
+ 
+function openWkEditor() { openWkEditorAt(-1); }
+ 
+function openWkEditorAt(focusIdx) {
+  const wks = getWeeks(aY, aM);
+  wkeData = wks.map(w => ({...w}));
+  const isCustom = !!getCustomWeeks(aY, aM);
+  document.getElementById('wkeSubTitle').textContent =
+    MO[aM] + ' ' + aY + ' · ' + wks.length + ' semana(s)' +
+    (isCustom ? ' · personalizado' : ' · gerado automaticamente');
+  renderWkeList(focusIdx);
+  document.getElementById('wkEditorModal').classList.add('open');
+}
+ 
+function closeWkEditor() {
+  document.getElementById('wkEditorModal').classList.remove('open');
+}
+ 
+function closeWkEditorIfBg(e) {
+  if (e.target === document.getElementById('wkEditorModal')) closeWkEditor();
+}
+ 
+function renderWkeList(focusIdx) {
+  const list = document.getElementById('wkeWeeksList');
+  list.innerHTML = wkeData.map((w, i) => {
+    const spent = wkSpent(w.lbl);
+    return '<div class="wke-week-card" id="wke-card-'+i+'">'+
+      '<div class="wke-wk-top">'+
+        '<div class="wke-wk-lbl">'+w.lbl+'</div>'+
+        '<div style="display:flex;align-items:center;gap:8px">'+
+          '<div class="wke-wk-spent">'+fmt(spent)+'</div>'+
+          (wkeData.length > 1 ? '<button class="wke-wk-del" onclick="wkeDelWeek('+i+')" title="Remover semana">×</button>' : '')+
+        '</div>'+
+      '</div>'+
+      '<div class="wke-dates-row">'+
+        '<div class="wke-fld"><label>Inicio</label>'+
+          '<input type="date" id="wke-start-'+i+'" value="'+w.start+'" onchange="wkeUpdate('+i+')" color-scheme="dark">'+
+        '</div>'+
+        '<div class="wke-fld"><label>Fim</label>'+
+          '<input type="date" id="wke-end-'+i+'" value="'+w.end+'" onchange="wkeUpdate('+i+')" color-scheme="dark">'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+ 
+  // Scroll to focused card
+  if (focusIdx >= 0) {
+    setTimeout(() => {
+      const card = document.getElementById('wke-card-'+focusIdx);
+      if (card) card.scrollIntoView({behavior:'smooth', block:'center'});
+    }, 100);
+  }
+}
+ 
+function wkeUpdate(i) {
+  const s = document.getElementById('wke-start-'+i).value;
+  const e = document.getElementById('wke-end-'+i).value;
+  if (s) {
+    const ds = new Date(s+'T12:00:00');
+    wkeData[i].start = s;
+    wkeData[i].dates = fmtD(ds) + (e ? ' - '+fmtD(new Date(e+'T12:00:00')) : ' - ?');
+  }
+  if (e) {
+    const de = new Date(e+'T12:00:00');
+    wkeData[i].end = e;
+    wkeData[i].dates = (s ? fmtD(new Date(s+'T12:00:00')) : '?') + ' - ' + fmtD(de);
+  }
+}
+ 
+function wkeDelWeek(i) {
+  wkeData.splice(i, 1);
+  // Renumber labels
+  wkeData.forEach((w, idx) => { w.lbl = 'Semana ' + (idx + 1); });
+  renderWkeList(-1);
+}
+ 
+function wkeAddWeek() {
+  // Suggest start = day after last week's end, end = +6 days
+  let sugStart = '', sugEnd = '';
+  if (wkeData.length > 0) {
+    const last = wkeData[wkeData.length - 1];
+    if (last.end) {
+      const d = new Date(last.end + 'T12:00:00');
+      d.setDate(d.getDate() + 1);
+      sugStart = toISO(d);
+      const e = new Date(d);
+      e.setDate(e.getDate() + 6);
+      sugEnd = toISO(e);
+    }
+  }
+  const n = wkeData.length + 1;
+  const ds = sugStart ? new Date(sugStart+'T12:00:00') : null;
+  const de = sugEnd ? new Date(sugEnd+'T12:00:00') : null;
+  wkeData.push({
+    lbl: 'Semana ' + n,
+    dates: (ds ? fmtD(ds) : '?') + ' - ' + (de ? fmtD(de) : '?'),
+    start: sugStart,
+    end: sugEnd
+  });
+  renderWkeList(wkeData.length - 1);
+}
+ 
+function wkeSave() {
+  // Read current input values before saving
+  wkeData.forEach((w, i) => {
+    const s = document.getElementById('wke-start-'+i);
+    const e = document.getElementById('wke-end-'+i);
+    if (s) w.start = s.value;
+    if (e) w.end = e.value;
+    if (w.start && w.end) {
+      w.dates = fmtD(new Date(w.start+'T12:00:00')) + ' - ' + fmtD(new Date(w.end+'T12:00:00'));
+    }
+  });
+ 
+  // Validate
+  for (let i = 0; i < wkeData.length; i++) {
+    if (!wkeData[i].start || !wkeData[i].end) {
+      showToast('Preencha todas as datas da ' + wkeData[i].lbl);
+      return;
+    }
+    if (wkeData[i].start > wkeData[i].end) {
+      showToast(wkeData[i].lbl + ': inicio deve ser antes do fim');
+      return;
+    }
+  }
+ 
+  // Reassign entries to correct weeks based on new dates
+  entries = entries.map(e => {
+    const match = wkeData.find(w => e.date >= w.start && e.date <= w.end);
+    return {...e, week: match ? match.lbl : '---'};
+  });
+  localStorage.setItem(cKey(aY, aM), JSON.stringify(entries));
+ 
+  localStorage.setItem(wkCustomKey(aY, aM), JSON.stringify(wkeData));
+  closeWkEditor();
+  render();
+  showToast('Semanas salvas!');
+}
+ 
+function wkeReset() {
+  if (!confirm('Restaurar semanas automaticas para ' + MO[aM] + ' ' + aY + '?')) return;
+  localStorage.removeItem(wkCustomKey(aY, aM));
+ 
+  // Reassign entries to auto weeks
+  const autoWks = getAutoWeeks(aY, aM);
+  entries = entries.map(e => {
+    const match = autoWks.find(w => e.date >= w.start && e.date <= w.end);
+    return {...e, week: match ? match.lbl : '---'};
+  });
+  localStorage.setItem(cKey(aY, aM), JSON.stringify(entries));
+ 
+  closeWkEditor();
+  render();
+  showToast('Semanas restauradas!');
+}
+ 
 function showToast(msg) {
   const t=document.getElementById('toast');
   t.textContent=msg; t.classList.add('show');
