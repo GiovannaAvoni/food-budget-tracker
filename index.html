@@ -385,6 +385,91 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
 .chip { cursor: pointer; transition: transform .15s; }
 .chip:active { transform: scale(0.95); }
  
+/* ── DESKTOP RESPONSIVE ─────────────────────────────────────────── */
+@media (min-width: 768px) {
+  body { padding-bottom: 40px; }
+  .page { max-width: 1100px; padding: 0 24px; }
+ 
+  header { padding: 24px 0 20px; }
+  .hdr-eyebrow { font-size: 11px; }
+  .hdr-title { font-size: 32px; }
+  .hdr-hint { font-size: 11px; }
+  .ico-btn { width: 44px; height: 44px; font-size: 18px; }
+ 
+  /* Two-column main layout */
+  .desktop-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 20px;
+    align-items: start;
+  }
+  .desktop-col-left, .desktop-col-right { }
+ 
+  .card { margin: 0 0 18px; border-radius: 24px; padding: 24px; }
+  .sec-title { padding: 0; margin-bottom: 14px; font-size: 11px; }
+  .chips-wrap { padding: 0; margin-bottom: 20px; }
+ 
+  /* Bigger text on desktop */
+  .big-num { font-size: 44px; }
+  .wk-spent { font-size: 44px; }
+  .stat .sv { font-size: 20px; }
+  .wk-lim { font-size: 20px; }
+  .rem-val { font-size: 18px; }
+ 
+  /* Screens (picker/setup) */
+  .screen { padding: calc(var(--st) + 60px) 40px 60px; }
+  .pk-title { font-size: 42px; }
+  .mo-grid { max-width: 500px; gap: 14px; }
+  .mo-btn { padding: 20px 10px; }
+  .mo-btn .mn { font-size: 16px; }
+  .yr-val { font-size: 36px; }
+  .yr-btn { width: 52px; height: 52px; font-size: 26px; }
+ 
+  /* Log entries */
+  .log-entry { padding: 14px 0; }
+  .log-desc { font-size: 14px; }
+  .log-val { font-size: 18px; }
+  .log-ico { width: 40px; height: 40px; font-size: 18px; }
+ 
+  /* Form */
+  .fld input { padding: 14px 16px; font-size: 16px; }
+  .btn-add { padding: 18px; font-size: 20px; }
+  .pills-grid { grid-template-columns: repeat(8,1fr); }
+  .pill { padding: 10px 6px; }
+  .pill .pi { font-size: 22px; }
+  .pill .pn { font-size: 10px; }
+ 
+  /* Chips */
+  .chip { min-width: 140px; padding: 14px 16px; }
+  .chip .cs { font-size: 18px; }
+ 
+  /* Modals */
+  #exportModal, #wkEditorModal {
+    align-items: center;
+    padding: 0;
+  }
+  .exp-sheet {
+    border-radius: 20px;
+    max-width: 520px;
+  }
+  .wke-sheet {
+    border-radius: 20px;
+    max-width: 560px;
+    max-height: 85vh;
+  }
+ 
+  /* Budget input */
+  .budget-input { width: 100px; font-size: 16px; }
+  .stat .sl { font-size: 10px; }
+}
+ 
+@media (min-width: 1100px) {
+  .page { max-width: 1200px; }
+  .desktop-grid { gap: 0 28px; }
+  .card { padding: 28px; }
+}
+/* ── END DESKTOP ────────────────────────────────────────────────── */
+ 
 /* INSIGHTS */
 .cat-row { display: flex; align-items: center; gap: 10px; margin-bottom: 11px; }
 .cat-row:last-child { margin-bottom: 0; }
@@ -481,7 +566,11 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
       </div>
     </header>
  
+    <div class="desktop-grid">
+    <div class="desktop-col-left">
+ 
     <!-- MONTH OVERVIEW -->
+    <div class="sec-title" style="display:none" id="moTitle">Resumo do mes</div>
     <div class="card card-navy">
       <div class="sec-label">Disponivel no mes</div>
       <div class="big-num" id="moAvail">R$ ---</div>
@@ -499,6 +588,10 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
       <div class="bar-wrap">
         <div class="bar-labels"><span>Utilizado</span><span id="moPct">0%</span></div>
         <div class="bar"><div class="bar-fill" id="moBar" style="width:0%"></div></div>
+      </div>
+      <div id="unassignedWarn" style="display:none;align-items:center;gap:8px;margin-top:12px;padding:9px 12px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:10px;">
+        <span style="font-size:15px">⚠️</span>
+        <div style="flex:1;font-size:11px;color:var(--warn);line-height:1.4"><b id="unassignedAmt"></b> em gastos fora das semanas definidas — vá ao Histórico e corrija as datas ou edite as semanas.</div>
       </div>
     </div>
  
@@ -538,6 +631,22 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
     <div class="sec-title">Comparacao com mes anterior</div>
     <div class="card" id="cmpCard"><div style="text-align:center;color:var(--gray);font-size:12px">Sincronize para carregar</div></div>
  
+    <!-- INSIGHTS -->
+    <div class="sec-title">Por categoria</div>
+    <div class="card" id="insCard"><div style="text-align:center;color:var(--gray);font-size:12px;padding:8px">Nenhum dado ainda</div></div>
+ 
+    <!-- PIE -->
+    <div class="sec-title">Distribuicao de gastos</div>
+    <div class="card">
+      <div class="pie-inner">
+        <canvas id="pieChart" width="140" height="140" style="flex-shrink:0;border-radius:50%"></canvas>
+        <div class="pie-legend" id="pieLegend"></div>
+      </div>
+    </div>
+ 
+    </div><!-- end col-left -->
+    <div class="desktop-col-right">
+ 
     <!-- FORM -->
     <div class="sec-title">Registrar gasto</div>
     <div class="card">
@@ -553,23 +662,14 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
       <button class="btn-add" id="btnAdd" onclick="addEntry()"><span>+</span> Adicionar gasto</button>
     </div>
  
-    <!-- INSIGHTS -->
-    <div class="sec-title">Por categoria</div>
-    <div class="card" id="insCard"><div style="text-align:center;color:var(--gray);font-size:12px;padding:8px">Nenhum dado ainda</div></div>
- 
-    <!-- PIE -->
-    <div class="sec-title">Distribuicao de gastos</div>
-    <div class="card">
-      <div class="pie-inner">
-        <canvas id="pieChart" width="140" height="140" style="flex-shrink:0;border-radius:50%"></canvas>
-        <div class="pie-legend" id="pieLegend"></div>
-      </div>
-    </div>
- 
     <!-- LOG -->
     <div class="sec-title">Historico</div>
     <div class="log-wrap" id="logWrap"></div>
     <div class="empty-log" id="emptyLog" style="display:none">Nenhum gasto ainda</div>
+ 
+    </div><!-- end col-right -->
+    </div><!-- end desktop-grid -->
+ 
     <div class="bottom-space"></div>
   </div>
 </div>
@@ -691,6 +791,8 @@ function getAutoWeeks(y, m) {
  
 function getDays(y,m) { return new Date(y,m+1,0).getDate(); }
 function wkSpent(lbl,src) { return (src||entries).filter(e=>e.week===lbl).reduce((s,e)=>s+Number(e.value),0); }
+// gastos com week '---' (fora das semanas) são distribuídos proporcionalmente no total mas não em nenhuma semana
+function wkUnassigned(src) { return (src||entries).filter(e=>e.week==='---').reduce((s,e)=>s+Number(e.value),0); }
 function wkLimits(wks,src) {
   let carry=0, lims=[];
   for (const w of wks) {
@@ -806,6 +908,7 @@ async function addEntry() {
   if (!value||value<=0) { showToast('Informe o valor'); return; }
   const wks = getWeeks(aY,aM);
   const week = (wks.find(w=>date>=w.start&&date<=w.end)||{}).lbl || '---';
+  if(week==='---'){ showToast('Aviso: data fora das semanas do mes — gasto sera listado como nao alocado'); }
   const btn = document.getElementById('btnAdd');
   btn.classList.add('loading'); btn.textContent='Salvando...';
   const entry = {id:Date.now(), date, desc:desc||selCat, category:selCat, value, week, obs};
@@ -853,6 +956,7 @@ function render() {
 function rMo(wks,lims) {
   const tot=lims.reduce((s,l)=>s+l,0), spent=entries.reduce((s,e)=>s+Number(e.value),0), rem=tot-spent;
   const pct=tot>0?Math.min(100,spent/tot*100):0, daily=tot/getDays(aY,aM);
+  const unassigned=wkUnassigned();
   const el=document.getElementById('moAvail');
   el.textContent=fmt(Math.abs(rem));
   el.className='big-num'+(rem<0?' over':rem<tot*.15?' warn':'');
@@ -864,6 +968,14 @@ function rMo(wks,lims) {
   const f=document.getElementById('moBar');
   f.style.width=pct+'%';
   f.className='bar-fill'+(pct>=100?' over':pct>=80?' warn':'');
+  // Show unassigned warning
+  const warn=document.getElementById('unassignedWarn');
+  if(unassigned>0){
+    warn.style.display='flex';
+    document.getElementById('unassignedAmt').textContent=fmt(unassigned);
+  } else {
+    warn.style.display='none';
+  }
 }
  
 function rHero(wks,lims,ci) {
@@ -975,7 +1087,7 @@ function rLog() {
       '<div class="log-ico">'+cat.i+'</div>'+
       '<div class="log-main">'+
         '<div class="log-desc">'+(e.desc||e.category)+'</div>'+
-        '<div class="log-meta">'+e.category+' - '+e.week+(e.obs?' - '+e.obs:'')+'</div>'+
+        '<div class="log-meta">'+e.category+' - '+(e.week==='---'?'<span style="color:var(--warn)">⚠ fora das semanas</span>':e.week)+(e.obs?' - '+e.obs:'')+'</div>'+
       '</div>'+
       '<div class="log-right">'+
         '<div class="log-val">'+fmt(e.value)+'</div>'+
