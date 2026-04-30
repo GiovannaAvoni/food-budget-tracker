@@ -453,6 +453,32 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
 }
 .edit-btn:active, .edit-btn:hover { color: var(--gold); background: rgba(201,150,58,0.1); }
 
+/* PAYMENT METHOD PILLS */
+.pay-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 7px; margin-top: 12px; }
+.pay-pill {
+  border-radius: 11px; padding: 9px 4px;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  text-align: center; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  user-select: none; -webkit-user-select: none; transition: transform .12s;
+}
+.pay-pill .ppi { font-size: 18px; }
+.pay-pill .ppn { font-size: 8px; color: var(--gray); line-height: 1.2; }
+.pay-pill.sel { border-width: 2px; }
+.pay-pill:active { transform: scale(0.94); }
+
+/* PAYMENT INSIGHT CARD */
+.pay-insight-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.pay-insight-row:last-child { margin-bottom: 0; }
+.pay-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.pay-inf { flex: 1; min-width: 0; }
+.pay-nm-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.pay-nm { font-size: 13px; font-weight: 500; }
+.pay-pct { font-size: 10px; color: var(--gray); }
+.pay-bar { height: 4px; background: rgba(255,255,255,0.07); border-radius: 99px; overflow: hidden; }
+.pay-bar-fill { height: 100%; border-radius: 99px; }
+.pay-val { font-family: var(--font-serif); font-size: 14px; font-weight: 600; white-space: nowrap; }
+
 /* ── DESKTOP RESPONSIVE ─────────────────────────────────────────── */
 @media (min-width: 768px) {
   body { padding-bottom: 40px; }
@@ -736,6 +762,10 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
     <div class="sec-title">Por categoria</div>
     <div class="card" id="insCard"><div style="text-align:center;color:var(--gray);font-size:12px;padding:8px">Nenhum dado ainda</div></div>
 
+    <!-- PAYMENT INSIGHT -->
+    <div class="sec-title">Por forma de pagamento</div>
+    <div class="card" id="payInsCard"><div style="text-align:center;color:var(--gray);font-size:12px;padding:8px">Nenhum dado ainda</div></div>
+
     <!-- PIE -->
     <div class="sec-title">Distribuicao de gastos</div>
     <div class="card">
@@ -752,7 +782,9 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
     <div class="sec-title">Registrar gasto</div>
     <div class="card">
       <div class="pills-grid" id="pillsGrid"></div>
-      <div class="fields">
+      <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;margin-top:4px;">Forma de Pagamento</div>
+      <div class="pay-grid" id="payGrid"></div>
+      <div class="fields" style="margin-top:14px;">
         <div class="row2">
           <div class="fld"><label>Data</label><input type="date" id="fDate"></div>
           <div class="fld"><label>Valor (R$)</label><input type="number" id="fVal" placeholder="0,00" step="0.01" min="0" inputmode="decimal"></div>
@@ -782,6 +814,8 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
     <div class="ee-title">Editar lançamento</div>
     <div class="ee-sub" id="eeSubTitle">---</div>
     <div class="ee-cats" id="eeCats"></div>
+    <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;margin-top:4px;">Forma de Pagamento</div>
+    <div class="pay-grid" id="eePayGrid"></div>
     <div class="ee-fields">
       <div class="ee-row2">
         <div class="ee-fld"><label>Data</label><input type="date" id="eeDate"></div>
@@ -855,11 +889,17 @@ const CATS = [
   {n:'Restaurante', i:'🍽️'}, {n:'Lanchonete', i:'🥪'}, {n:'Cafeteria', i:'☕'},
   {n:'Feira', i:'🥦'}, {n:'Outros', i:'✦'}
 ];
+const PAYS = [
+  {n:'Pix',           i:'⚡', c:'#7C3AED'},
+  {n:'Débito',        i:'💳', c:'#2A5298'},
+  {n:'Crédito',       i:'💰', c:'#C9963A'},
+  {n:'Vale Refeição', i:'🎫', c:'#059669'},
+];
 const PCOLS = ['#2A5298','#C9963A','#3B82F6','#D97706','#1D4ED8','#B45309','#60A5FA','#92400E'];
 const MO = ['Janeiro','Fevereiro','Marco','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const DP = ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'];
 
-let entries = [], selCat = '', offline = false;
+let entries = [], selCat = '', selPay = '', offline = false;
 let gsUrl = localStorage.getItem('gs_url') || '';
 let wkBudget = Number(localStorage.getItem('wk_budget')) || 400;
 let pkY = new Date().getFullYear(), aY = new Date().getFullYear(), aM = new Date().getMonth();
@@ -991,7 +1031,7 @@ function selMon(y,m) {
   entries = cached ? JSON.parse(cached) : [];
   render();
   if (!offline) syncData();
-  renderPills();
+  renderPills(); renderPayGrid();
 }
 
 // API
@@ -1028,6 +1068,7 @@ async function addEntry() {
   const desc = document.getElementById('fDesc').value.trim();
   const obs = document.getElementById('fObs').value.trim();
   if (!selCat) { showToast('Selecione uma categoria'); return; }
+  if (!selPay) { showToast('Selecione a forma de pagamento'); return; }
   if (!date) { showToast('Informe a data'); return; }
   if (!value||value<=0) { showToast('Informe o valor'); return; }
   const wks = getWeeks(aY,aM);
@@ -1035,14 +1076,14 @@ async function addEntry() {
   if(week==='---'){ showToast('Aviso: data fora das semanas do mes — gasto sera listado como nao alocado'); }
   const btn = document.getElementById('btnAdd');
   btn.classList.add('loading'); btn.textContent='Salvando...';
-  const entry = {id:Date.now(), date, desc:desc||selCat, category:selCat, value, week, obs};
+  const entry = {id:Date.now(), date, desc:desc||selCat, category:selCat, payment:selPay, value, week, obs};
   if (offline) {
     entries.unshift(entry);
     localStorage.setItem(cKey(aY,aM), JSON.stringify(entries));
     clearForm(); render(); showToast('Salvo offline!');
   } else {
     try {
-      const r = await apiCall({action:'add', date, desc:desc||selCat, category:selCat, value, week, obs});
+      const r = await apiCall({action:'add', date, desc:desc||selCat, category:selCat, payment:selPay, value, week, obs});
       if (r.success) {
         entry.id = r.id; entries.unshift(entry);
         localStorage.setItem(cKey(aY,aM), JSON.stringify(entries));
@@ -1068,13 +1109,13 @@ function clearForm() {
   document.getElementById('fDesc').value='';
   document.getElementById('fVal').value='';
   document.getElementById('fObs').value='';
-  selCat=''; renderPills();
+  selCat=''; selPay=''; renderPills(); renderPayGrid();
 }
 
 // RENDER
 function render() {
   const wks = getWeeks(aY,aM), lims = wkLimits(wks), ci = curWkIdx(wks);
-  rMo(wks,lims); rHero(wks,lims,ci); rChips(wks,lims,ci); rCmp(wks,lims); rIns(); rPie(); rLog();
+  rMo(wks,lims); rHero(wks,lims,ci); rChips(wks,lims,ci); rCmp(wks,lims); rIns(); rPayIns(); rPie(); rLog();
 }
 
 function rMo(wks,lims) {
@@ -1205,13 +1246,17 @@ function rLog() {
   empty.style.display='none';
   log.innerHTML=entries.map(e=>{
     const cat=CATS.find(c=>c.n===e.category)||{i:'?'};
+    const pay=PAYS.find(p=>p.n===e.payment);
     const dO=e.date?new Date(e.date+'T12:00:00'):null;
     const dn=dO?DP[dO.getDay()]:'', d=dO?pad(dO.getDate())+'/'+pad(dO.getMonth()+1):'---';
+    const payBadge = pay
+      ? '<span style="display:inline-flex;align-items:center;gap:3px;padding:1px 6px;border-radius:99px;background:'+pay.c+'22;border:1px solid '+pay.c+'55;font-size:9px;color:'+pay.c+';margin-left:5px">'+pay.i+' '+pay.n+'</span>'
+      : '';
     return '<div class="log-entry">'+
       '<div class="log-ico">'+cat.i+'</div>'+
       '<div class="log-main">'+
-        '<div class="log-desc">'+(e.desc||e.category)+'</div>'+
-        '<div class="log-meta">'+e.category+' - '+(e.week==='---'?'<span style="color:var(--warn)">⚠ fora das semanas</span>':e.week)+(e.obs?' · '+e.obs:'')+'</div>'+
+        '<div class="log-desc">'+(e.desc||e.category)+payBadge+'</div>'+
+        '<div class="log-meta">'+e.category+' · '+(e.week==='---'?'<span style="color:var(--warn)">⚠ fora das semanas</span>':e.week)+(e.obs?' · '+e.obs:'')+'</div>'+
       '</div>'+
       '<div class="log-right">'+
         '<div class="log-val">'+fmt(e.value)+'</div>'+
@@ -1230,6 +1275,56 @@ function renderPills() {
   ).join('');
 }
 function selC(n) { selCat=selCat===n?'':n; renderPills(); }
+
+function renderPayGrid() {
+  const el = document.getElementById('payGrid');
+  if (!el) return;
+  el.innerHTML = PAYS.map(p =>
+    '<div class="pay-pill'+(selPay===p.n?' sel':'')+'" '+(selPay===p.n?'style="border-color:'+p.c+';background:'+p.c+'22"':'')+
+    ' onclick="selPayFn(\''+p.n+'\')">' +
+    '<div class="ppi">'+p.i+'</div><div class="ppn">'+p.n+'</div></div>'
+  ).join('');
+}
+function selPayFn(n) { selPay = selPay===n ? '' : n; renderPayGrid(); }
+
+function rPayIns() {
+  const card = document.getElementById('payInsCard');
+  const total = entries.reduce((s,e)=>s+Number(e.value),0);
+  const payTotals = {};
+  PAYS.forEach(p => payTotals[p.n] = 0);
+  entries.forEach(e => { if (e.payment && payTotals[e.payment]!==undefined) payTotals[e.payment]+=Number(e.value); });
+  const untagged = entries.filter(e=>!e.payment||!PAYS.find(p=>p.n===e.payment)).reduce((s,e)=>s+Number(e.value),0);
+  const hasData = total > 0;
+  if (!hasData) { card.innerHTML='<div style="text-align:center;color:var(--gray);font-size:12px;padding:8px">Nenhum dado ainda</div>'; return; }
+  const maxVal = Math.max(...PAYS.map(p=>payTotals[p.n]), 1);
+  let html = PAYS.map(p => {
+    if (payTotals[p.n] === 0) return '';
+    const pct = total>0 ? (payTotals[p.n]/total*100).toFixed(1) : 0;
+    const barW = (payTotals[p.n]/maxVal*100).toFixed(1);
+    return '<div class="pay-insight-row">'+
+      '<div class="pay-dot" style="background:'+p.c+'"></div>'+
+      '<div style="font-size:18px;margin-right:2px">'+p.i+'</div>'+
+      '<div class="pay-inf">'+
+        '<div class="pay-nm-row"><div class="pay-nm">'+p.n+'</div><div class="pay-pct">'+pct+'%</div></div>'+
+        '<div class="pay-bar"><div class="pay-bar-fill" style="width:'+barW+'%;background:'+p.c+'"></div></div>'+
+      '</div>'+
+      '<div class="pay-val" style="color:'+p.c+'">'+fmt(payTotals[p.n])+'</div>'+
+    '</div>';
+  }).filter(Boolean).join('');
+  if (untagged > 0) {
+    const pct = (untagged/total*100).toFixed(1);
+    html += '<div class="pay-insight-row" style="opacity:0.5">'+
+      '<div class="pay-dot" style="background:var(--gray)"></div>'+
+      '<div style="font-size:18px;margin-right:2px">❓</div>'+
+      '<div class="pay-inf">'+
+        '<div class="pay-nm-row"><div class="pay-nm">Sem forma registrada</div><div class="pay-pct">'+pct+'%</div></div>'+
+        '<div class="pay-bar"><div class="pay-bar-fill" style="width:'+(untagged/maxVal*100).toFixed(1)+'%;background:rgba(255,255,255,0.2)"></div></div>'+
+      '</div>'+
+      '<div class="pay-val" style="color:var(--gray)">'+fmt(untagged)+'</div>'+
+    '</div>';
+  }
+  card.innerHTML = html;
+}
 
 // ── EXPORT ──────────────────────────────────────────────────────────────
 function openExport() {
@@ -1663,12 +1758,14 @@ function wkeReset() {
 // ── ENTRY EDITOR ─────────────────────────────────────────────────────────
 let eeId = null; // id of entry being edited
 let eeCat = '';  // selected category in editor
+let eePay = '';  // selected payment in editor
 
 function openEntryEdit(id) {
   const e = entries.find(x => x.id == id);
   if (!e) return;
   eeId = id;
   eeCat = e.category || '';
+  eePay = e.payment || '';
 
   const dO = e.date ? new Date(e.date+'T12:00:00') : null;
   const dn = dO ? DP[dO.getDay()] : '';
@@ -1679,7 +1776,7 @@ function openEntryEdit(id) {
   document.getElementById('eeDesc').value  = e.desc  || '';
   document.getElementById('eeObs').value   = e.obs   || '';
 
-  renderEeCats();
+  renderEeCats(); renderEePayGrid();
   document.getElementById('entryEditModal').classList.add('open');
 }
 
@@ -1691,10 +1788,23 @@ function renderEeCats() {
 }
 function selEeCat(n) { eeCat = eeCat===n ? '' : n; renderEeCats(); }
 
+function renderEePayGrid() {
+  const el = document.getElementById('eePayGrid');
+  if (!el) return;
+  el.innerHTML = PAYS.map(p =>
+    '<div class="pay-pill'+(eePay===p.n?' sel':'')+'" '+
+    (eePay===p.n?'style="border-color:'+p.c+';background:'+p.c+'22"':'')+
+    ' onclick="selEePay(\''+p.n+'\')">' +
+    '<div class="ppi">'+p.i+'</div><div class="ppn">'+p.n+'</div></div>'
+  ).join('');
+}
+function selEePay(n) { eePay = eePay===n ? '' : n; renderEePayGrid(); }
+
 function closeEntryEdit() {
   document.getElementById('entryEditModal').classList.remove('open');
-  eeId = null; eeCat = '';
+  eeId = null; eeCat = ''; eePay = '';
 }
+
 function closeEntryEditIfBg(e) {
   if (e.target === document.getElementById('entryEditModal')) closeEntryEdit();
 }
@@ -1715,14 +1825,13 @@ async function saveEntryEdit() {
   const idx = entries.findIndex(x => x.id == eeId);
   if (idx === -1) return;
 
-  const updated = { ...entries[idx], date, value, desc: desc||eeCat, category: eeCat, week, obs };
+  const updated = { ...entries[idx], date, value, desc: desc||eeCat, category: eeCat, payment: eePay, week, obs };
   entries[idx] = updated;
   localStorage.setItem(cKey(aY, aM), JSON.stringify(entries));
 
-  // Sync to Google Sheets if online
   if (!offline) {
-    try { await apiCall({action:'update', id:eeId, date, desc:desc||eeCat, category:eeCat, value, week, obs}); }
-    catch(e) { /* silently fail — local already saved */ }
+    try { await apiCall({action:'update', id:eeId, date, desc:desc||eeCat, category:eeCat, payment:eePay, value, week, obs}); }
+    catch(e) { /* silently fail */ }
   }
 
   closeEntryEdit();
