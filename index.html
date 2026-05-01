@@ -247,6 +247,7 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
 
 /* SECTION TITLE */
 .sec-title { font-size: 13px; font-weight: 700; color: var(--ivory); padding: 0 18px; margin-bottom: 11px; letter-spacing: -0.2px; }
+#moTitle { display: none; }
 
 /* COMPARISON */
 .cmp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
@@ -543,6 +544,7 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
   .card { margin: 0 0 20px; padding: 26px; border-radius: 18px; }
   .chips-wrap { padding: 0; margin-bottom: 20px; }
   .sec-title { padding: 0 !important; margin-bottom: 12px; font-size: 13px; }
+  #moTitle { display: block; }
   .log-wrap { margin: 0; }
   .big-num { font-size: 44px; }
   .wk-spent { font-size: 44px; }
@@ -645,7 +647,7 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
     <div class="desktop-col-left">
 
     <!-- MONTH OVERVIEW -->
-    <div class="sec-title" style="display:none" id="moTitle">Resumo do mes</div>
+    <div class="sec-title" id="moTitle">Resumo do mes</div>
     <div class="card card-navy">
       <div class="sec-label">Disponivel no mes</div>
       <div class="big-num" id="moAvail">R$ ---</div>
