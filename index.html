@@ -17,7 +17,7 @@
   --bg2:    #1a1a1a;
   --bg3:    #222222;
   --border: rgba(255,255,255,0.08);
-  --lime:   #C7F051;
+  --lime:   #C8FF00;
   --lime2:  #a8d800;
   --ivory:  #f0f0f0;
   --muted:  rgba(255,255,255,0.38);
@@ -538,10 +538,11 @@ header { padding: 8px 18px 14px; display: flex; justify-content: space-between; 
   .hdr-hint { font-size: 11px; }
   .ico-btn { width: 46px; height: 46px; font-size: 18px; }
   .hdr-btns { gap: 10px; }
-  .desktop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+  .desktop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; isolation: isolate; }
+  .desktop-col-left, .desktop-col-right { min-width: 0; }
   .card { margin: 0 0 20px; padding: 26px; border-radius: 18px; }
   .chips-wrap { padding: 0; margin-bottom: 20px; }
-  .sec-title { padding: 0; margin-bottom: 12px; font-size: 13px; }
+  .sec-title { padding: 0 !important; margin-bottom: 12px; font-size: 13px; }
   .log-wrap { margin: 0; }
   .big-num { font-size: 44px; }
   .wk-spent { font-size: 44px; }
